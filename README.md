@@ -1,2 +1,45 @@
 # dnaMethAge
-Predict epigenetic age from DNA methylation data
+Predict epigenetic age from DNA methylation data, for example, Horvath age, Hannum age, PhenoAge(Levine).
+
+## Usage
+
+#### Installation
+git clone git@github.com:yiluyucheng/dnaMethAge.git
+
+#### How to use
+
+1. Change the work directory into /dnaMethAge/scripts
+
+2. Open R environment
+
+2.1 Predict Horvath age:
+
+'''R
+source('MethAge.R')
+
+res <- methyAge(betas, clock='Horvath2013')
+'''
+
+The *betas* should be a dataframe which samples in the columns and probe in the rows.
+
+Currently, support age clocks are 'Hannum2013', 'Horvath2013', 'Levine2018'. More age models will be included in the future.
+
+
+2.1 Predict Horvath age and calculate age acceleration:
+
+'''R
+source('MethAge.R')
+
+res <- methyAge(betas, clock='Horvath2013', age_info=info, fit_method='Linear')
+'''
+
+*info* should be a dataframe which contains sample ID and age information, like:\nSample\tAge\nname1\t30\nname2\t60\nname3\t40\n
+
+Please also check '/scripts/predict_on_betas.R' to get better known as how to use methyAge.
+
+## Contact me
+
+yw19282@essex.ac.uk
+
+
+
