@@ -1,10 +1,14 @@
 # dnaMethAge
-Predict epigenetic age from DNA methylation data, for example, Horvath age, Hannum age, PhenoAge(Levine).
+Predict epigenetic age from DNA methylation data, for example, Horvath age, Hannum age, PhenoAge(Levine), Zhang2019.
 
 ## Usage
 
 #### Installation
+```
 git clone git@github.com:yiluyucheng/dnaMethAge.git
+```
+
+or download the ZIP file(dnaMethAge-main.zip), after unzip the file.
 
 #### How to use
 
@@ -17,7 +21,11 @@ git clone git@github.com:yiluyucheng/dnaMethAge.git
 ```R
 source('MethAge.R')
 
-res <- methyAge(betas, clock='Horvath2013')
+horvath_age <- methyAge(betas, clock='Horvath2013')
+hannum_age <- methyAge(betas, clock='Hannum2013')
+pheno_age <- methyAge(betas, clock='Levine2018')
+zhang_age <- methyAge(betas, clock='Zhang2019')
+
 ```
 
 The *betas* should be a dataframe which samples in the columns and probe in the rows.
@@ -32,7 +40,10 @@ More age models will be included in the future.
 ```
 source('MethAge.R')
 
-res <- methyAge(betas, clock='Horvath2013', age_info=info, fit_method='Linear')
+horvath_age <- methyAge(betas, clock='Horvath2013', age_info=info, fit_method='Linear')
+hannum_age <- methyAge(betas, clock='Hannum2013', age_info=info, fit_method='Linear')
+pheno_age <- methyAge(betas, clock='Levine2018', age_info=info, fit_method='Linear')
+zhang_age <- methyAge(betas, clock='Zhang2019', age_info=info, fit_method='Linear')
 ```
 
 *info* should be a dataframe which contains sample ID and age information, like:
