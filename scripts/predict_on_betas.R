@@ -18,12 +18,13 @@ if (file.exists(info_file)){
 
 ## read beta file into matrix
 # beta_file <- '/kdmsim1/share/yw19282/projects/EnetTrain/USM_WF_norm_Betas_value.xls'
+# beta_file <- '/home/yw19282/phd_project/Meth_Age/Horvath_age/MethylationDataExample55.csv'
 betas <- fread(beta_file, data.table=FALSE)
-rownames(betas) <- betas$ID_REF
+rownames(betas) <- betas[, 1]
 betas <- betas[, -1]
 
 ## predict DNAm age based on selected clock
-res <- methyAge(betas, clock=clock, age_info=info, fit_method='Linear')
+res <- methyAge(betas, clock=clock, age_info=info, fit_method='Linear', fast_mode=FALSE)
 
 ## save results
 fwrite(res, file=save_file, sep='\t')

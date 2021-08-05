@@ -1,5 +1,3 @@
-require(data.table)
-
 
 getAccel <- function(c_age, m_age, method='Linear'){
     if (method == "None"){
@@ -18,13 +16,17 @@ getAccel <- function(c_age, m_age, method='Linear'){
 }
 
 
-methyAge <- function(betas, clock='Horvath2013', age_info=FALSE, fit_method='Linear'){
+methyAge <- function(betas, clock='Horvath2013', age_info=FALSE, fit_method='Linear', fast_mode=FALSE){
     ## prepare clock coefficients
     usable_clocks <- c('Hannum2013', 'Horvath2013', 'Levine2018')
     if (!(clock %in% usable_clocks)){
         message(paste0("Available clocks are: "))
         message(paste0(usable_clocks, sep=", "))
         stop(paste0("Unavailable for the defined clock: ", clock))
+    }
+    if (clock == 'Horvath2013' & !fast_mode){
+        source('horvathPreprocess.R')
+        betas <- horvathPreprocess(betas, normalizeData=TRUE)
     }
     coefs <- read.table(paste0('../coefs/', clock, '.txt'), header=TRUE)
     coefs <- setNames(coefs$Coefficient, coefs$Probe)
