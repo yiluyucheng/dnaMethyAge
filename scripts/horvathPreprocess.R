@@ -1,5 +1,6 @@
 ### ORIGINAL AUTHOR: Steve Horvath
 ### Adopted by Yucheng Wang
+### modifications: only keep some ensential codes
 
 if (!requireNamespace("impute", quietly = TRUE)){
     BiocManager::install("impute")
@@ -51,7 +52,7 @@ imputation <- function(dat1, goldstandard=probeAnnotation21kdatMethUsed$goldstan
 
 horvathPreprocess <- function(betas, normalizeData=TRUE){ 
     #load('horvath_clock.RData')  ## datClock, probeAnnotation21kdatMethUsed
-    probeAnnotation21kdatMethUsed <- read.table('/home/yw19282/phd_project/Meth_Age/Horvath_age/27k_reference.txt', header=TRUE)
+    probeAnnotation21kdatMethUsed <- read.table('../coefs/27k_reference.txt', header=TRUE)
     #STEP 2: Restrict the data to 21k probes and ensure they are numeric
     match1 <- match(probeAnnotation21kdatMethUsed$Name , rownames(betas))
     if(sum(is.na(match1)) > 0){
