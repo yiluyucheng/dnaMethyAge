@@ -18,7 +18,7 @@ getAccel <- function(c_age, m_age, method='Linear'){
 
 methyAge <- function(betas, clock='Horvath2013', age_info=FALSE, fit_method='Linear', fast_mode=FALSE){
     ## prepare clock coefficients
-    usable_clocks <- c('Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2018')
+    usable_clocks <- c('Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2019')
     if (!(clock %in% usable_clocks)){
         message(paste0("Available clocks are: "))
         message(paste0(usable_clocks, sep=", "))
