@@ -18,15 +18,17 @@ getAccel <- function(c_age, m_age, method='Linear'){
 
 methyAge <- function(betas, clock='Horvath2013', age_info=FALSE, fit_method='Linear', fast_mode=FALSE){
     ## prepare clock coefficients
-    usable_clocks <- c('Hannum2013', 'Horvath2013', 'Levine2018')
+    usable_clocks <- c('Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2018')
     if (!(clock %in% usable_clocks)){
         message(paste0("Available clocks are: "))
         message(paste0(usable_clocks, sep=", "))
         stop(paste0("Unavailable for the defined clock: ", clock))
-    }
-    if (clock == 'Horvath2013' & !fast_mode){
-        source('horvathPreprocess.R')
+    } else if (clock == 'Horvath2013' & !fast_mode){
+        source('preprocessHorvath2013.R')
         betas <- horvathPreprocess(betas, normalizeData=TRUE)
+    } else if (clock == 'Zhang2019'){
+        source('preprocessZhang2019.R')
+        betas <- preprocessZhang2019(betas)
     }
     coefs <- read.table(paste0('../coefs/', clock, '.txt'), header=TRUE)
     coefs <- setNames(coefs$Coefficient, coefs$Probe)

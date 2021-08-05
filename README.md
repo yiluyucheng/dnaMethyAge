@@ -22,7 +22,9 @@ res <- methyAge(betas, clock='Horvath2013')
 
 The *betas* should be a dataframe which samples in the columns and probe in the rows.
 
-Currently, support age clocks are 'Hannum2013', 'Horvath2013', 'Levine2018'. More age models will be included in the future.
+Currently, support age clocks are 'Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2019'. 
+
+More age models will be included in the future.
 
 
 * 2.2 Predict Horvath age and calculate age acceleration:
