@@ -13,7 +13,7 @@ addna <- function(methy){
 
 preprocessZhang2019 <- function(betas){
     sample_id <- rownames(betas)
-    if(all(is.na(betas))){
+    if(any(is.na(betas))){
         message("Found NAs, try to replace the NA with mean value for each probe: ")
         betas <- t(apply(betas, 1, addna))
     }
