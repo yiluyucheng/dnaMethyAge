@@ -2,12 +2,8 @@
 ### Adopted by Yucheng Wang
 ### modifications: only keep some ensential codes
 
-if (!requireNamespace("impute", quietly = TRUE)){
-    BiocManager::install("impute")
-}else{
-    require("impute")
-}
-source("adjustedBMIQ.R")
+
+#source("adjustedBMIQ.R")
 
 
 imputation <- function(dat1, goldstandard=probeAnnotation21kdatMethUsed$goldstandard2, fastImputation=FALSE){
@@ -23,6 +19,14 @@ imputation <- function(dat1, goldstandard=probeAnnotation21kdatMethUsed$goldstan
   if(! fastImputation & nrow(datMethUsed) > 1 & max_noMissingPerSample < 3000 ){
     # run the following code if there is at least one missing
     if (max_noMissingPerSample > 0){
+      if (!requireNamespace("impute", quietly = TRUE)){
+        BiocManager::install("impute")
+        require("impute")
+      }else{
+        require("impute")
+      }
+
+
       dimnames1 <- dimnames(datMethUsed)
       datMethUsed <- data.frame(t(impute.knn(t(datMethUsed))$data))
       dimnames(datMethUsed) <- dimnames1
@@ -50,9 +54,10 @@ imputation <- function(dat1, goldstandard=probeAnnotation21kdatMethUsed$goldstan
 }
 
 
-horvathPreprocess <- function(betas, normalizeData=TRUE){ 
+horvathPreprocess <- function(betas, normalizeData=TRUE){
     #load('horvath_clock.RData')  ## datClock, probeAnnotation21kdatMethUsed
-    probeAnnotation21kdatMethUsed <- read.table('../coefs/27k_reference.txt', header=TRUE)
+    #probeAnnotation21kdatMethUsed <- read.table('../coefs/27k_reference.txt', header=TRUE)
+    data("27k_reference", envir=environment())
     #STEP 2: Restrict the data to 21k probes and ensure they are numeric
     match1 <- match(probeAnnotation21kdatMethUsed$Name , rownames(betas))
     if(sum(is.na(match1)) > 0){

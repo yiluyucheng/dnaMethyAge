@@ -1,30 +1,19 @@
-
-
-
-
-
 ### ORIGINAL AUTHOR: Andrew Teschendorff
-# The original BMIQ function from Teschendorff 2013 adjusts for the type-2 bias in 
+# The original BMIQ function from Teschendorff 2013 adjusts for the type-2 bias in
 # Illumina Infinium 450k data.
 # Later functions and edits were provided by yours truly, Steve Horvath.
 # I changed the code so that one can calibrate methylation data to a gold standard.
-# Specifically, I took version v_1.2 by Teschendorff  and fixed minor issues. 
+# Specifically, I took version v_1.2 by Teschendorff  and fixed minor issues.
 # Also I made the code more robust e.g. by changing the optimization algorithm.
 # Toward this end, I used the method="Nelder-Mead" in optim()
 
-### Later functions and edits by Steve Horvath 
-### # Steve Horvath took version v_1.2 by Teschendorff 
+### Later functions and edits by Steve Horvath
+### # Steve Horvath took version v_1.2 by Teschendorff
 # and fixed minor errors. Also he made the code more robust.
-# Importantly, SH changed the optimization algorithm to make it #more robust. 
+# Importantly, SH changed the optimization algorithm to make it #more robust.
 # SH used method="Nelder-Mead" in optim() since the other #optimization method sometimes gets stuck.
 #Toward this end, the function blc was replaced by blc2.
 
-
-if (!requireNamespace("RPMM", quietly = TRUE)){
-    install.packages("RPMM")
-}else{
-    require("RPMM")
-}
 
 blc <- function (Y, w, maxiter = 25, tol = 1e-06, weights = NULL, verbose = TRUE) {
     Ymn <- min(Y[Y > 0], na.rm = TRUE)
@@ -35,9 +24,9 @@ blc <- function (Y, w, maxiter = 25, tol = 1e-06, weights = NULL, verbose = TRUE
     J <- dim(Y)[2]
     K <- dim(w)[2]
     n <- dim(w)[1]
-    if (n != dim(Y)[1]) 
+    if (n != dim(Y)[1])
         stop("Dimensions of w and Y do not agree")
-    if (is.null(weights)) 
+    if (is.null(weights))
         weights <- rep(1, n)
     mu <- a <- b <- matrix(Inf, K, J)
     crit <- Inf
@@ -57,7 +46,7 @@ blc <- function (Y, w, maxiter = 25, tol = 1e-06, weights = NULL, verbose = TRUE
         ww <- array(0, dim = c(n, J, K))
         for (k in 1:K) {
             for (j in 1:J) {
-                ww[Yobs[, j], j, k] <- dbeta(Y[Yobs[, j], j], 
+                ww[Yobs[, j], j, k] <- dbeta(Y[Yobs[, j], j],
                   a[k, j], b[k, j], log = TRUE)
             }
         }
@@ -70,19 +59,19 @@ blc <- function (Y, w, maxiter = 25, tol = 1e-06, weights = NULL, verbose = TRUE
         w <- (1/like) * w
         llike <- weights * (log(like) + wmax)
         crit <- max(abs(mu - mu0))
-        if (verbose) 
+        if (verbose)
             message(crit)
-        if (crit < tol) 
+        if (crit < tol)
             break
     }
     return(list(a = a, b = b, eta = eta, mu = mu, w = w, llike = sum(llike)))
 }
 
 
-betaEst2=function (y, w, weights) 
+betaEst2=function (y, w, weights)
 {
     yobs = !is.na(y)
-    if (sum(yobs) <= 1) 
+    if (sum(yobs) <= 1)
         return(c(1, 1))
     y = y[yobs]
     w = w[yobs]
@@ -90,20 +79,20 @@ betaEst2=function (y, w, weights)
     N = sum(weights * w)
     p = sum(weights * w * y)/N
     v = sum(weights * w * y * y)/N - p * p
-    logab = log(c(p, 1 - p)) + log(pmax(1e-06, p * (1 - p)/v - 
+    logab = log(c(p, 1 - p)) + log(pmax(1e-06, p * (1 - p)/v -
         1))
-    if (sum(yobs) == 2) 
+    if (sum(yobs) == 2)
         return(exp(logab))
-    opt = try(optim(logab, betaObjf, ydata = y, wdata = w, weights = weights, 
+    opt = try(optim(logab, betaObjf, ydata = y, wdata = w, weights = weights,
         method = "Nelder-Mead",control=list(maxit=50) ), silent = TRUE)
-    if (inherits(opt, "try-error")) 
+    if (inherits(opt, "try-error"))
         return(c(1, 1))
     exp(opt$par)
 } # end of function betaEst
 
 
 
-blc2=function (Y, w, maxiter = 25, tol = 1e-06, weights = NULL, verbose = TRUE) 
+blc2=function (Y, w, maxiter = 25, tol = 1e-06, weights = NULL, verbose = TRUE)
 {
     Ymn = min(Y[Y > 0], na.rm = TRUE)
     Ymx = max(Y[Y < 1], na.rm = TRUE)
@@ -113,9 +102,9 @@ blc2=function (Y, w, maxiter = 25, tol = 1e-06, weights = NULL, verbose = TRUE)
     J = dim(Y)[2]
     K = dim(w)[2]
     n = dim(w)[1]
-    if (n != dim(Y)[1]) 
+    if (n != dim(Y)[1])
         stop("Dimensions of w and Y do not agree")
-    if (is.null(weights)) 
+    if (is.null(weights))
         weights = rep(1, n)
     mu = a = b = matrix(Inf, K, J)
     crit = Inf
@@ -135,7 +124,7 @@ blc2=function (Y, w, maxiter = 25, tol = 1e-06, weights = NULL, verbose = TRUE)
         ww = array(0, dim = c(n, J, K))
         for (k in 1:K) {
             for (j in 1:J) {
-                ww[Yobs[, j], j, k] = dbeta(Y[Yobs[, j], j], 
+                ww[Yobs[, j], j, k] = dbeta(Y[Yobs[, j], j],
                   a[k, j], b[k, j], log = TRUE)
             }
         }
@@ -148,21 +137,13 @@ blc2=function (Y, w, maxiter = 25, tol = 1e-06, weights = NULL, verbose = TRUE)
         w = (1/like) * w
         llike = weights * (log(like) + wmax)
         crit = max(abs(mu - mu0))
-        if (verbose) 
+        if (verbose)
             message(crit)
-        if (crit < tol) 
+        if (crit < tol)
             break
     }
     return(list(a = a, b = b, eta = eta, mu = mu, w = w, llike = sum(llike)))
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -193,6 +174,14 @@ w0.m[intersect(which(beta1.v > th1.v[1]),which(beta1.v <= th1.v[2])),2] = 1;
 w0.m[which(beta1.v > th1.v[2]),3] = 1;
 ### fit type1
 message("Fitting EM beta mixture to goldstandard probes");
+
+  if (!requireNamespace("RPMM", quietly = TRUE)){
+    install.packages("RPMM")
+    require("RPMM")
+  }else{
+    require("RPMM")
+  }
+
 set.seed(1)
 rand.idx = sample(1:length(beta1.v),min(c(nfit, length(beta1.v))  )   ,replace=FALSE)
 em1.o = blc(matrix(beta1.v[rand.idx],ncol=1),w=w0.m[rand.idx,],maxiter=niter,tol=tol);
@@ -218,14 +207,14 @@ points(d.o$x,d.o$y,col="green",type="l")
 legend(x=0.5,y=3,legend=c("obs","fit"),fill=c("black","green"),bty="n");
 }
 
-### Estimate Modes 
+### Estimate Modes
 if (  sum(class1.v==1)==1 ){ mod1U= beta1.v[class1.v==1]}
 if (  sum(class1.v==3)==1 ){ mod1M= beta1.v[class1.v==3]}
-if (  sum(class1.v==1) >1){ 
+if (  sum(class1.v==1) >1){
 d1U.o = density(beta1.v[class1.v==1])
 mod1U = d1U.o$x[which.max(d1U.o$y)]
 }
-if (  sum(class1.v==3)>1 ){ 
+if (  sum(class1.v==3)>1 ){
 d1M.o = density(beta1.v[class1.v==3])
 mod1M = d1M.o$x[which.max(d1M.o$y)]
 }
@@ -247,7 +236,7 @@ th2.v = vector();
 th2.v[1] = nth1.v[1] + (mod2U-mod1U);
 th2.v[2] = nth1.v[2] + (mod2M-mod1M);
 
-### estimate initial weight matrix 
+### estimate initial weight matrix
 w0.m = matrix(0,nrow=length(beta2.v),ncol=nL);
 w0.m[which(beta2.v <= th2.v[1]),1] = 1;
 w0.m[intersect(which(beta2.v > th2.v[1]),which(beta2.v <= th2.v[2])),2] = 1;
@@ -382,7 +371,7 @@ rangeBySample=range(beta.v,na.rm=TRUE)
 minBySample=rangeBySample[1]
 maxBySample=rangeBySample[2]
 if ( (minBySample<0 | maxBySample>1) & !is.na(minBySample) & !is.na(maxBySample) ) {
-y1=c(0.001,.999) 
+y1=c(0.001,.999)
 x1=c(minBySample,maxBySample)
 lm1=lm( y1 ~ x1 )
 intercept1=coef(lm1)[[1]]
@@ -437,14 +426,14 @@ dev.off();
 
 
 
-### Estimate Modes 
+### Estimate Modes
 if (  sum(class1.v==1)==1 ){ mod1U= beta1.v[class1.v==1]}
 if (  sum(class1.v==3)==1 ){ mod1M= beta1.v[class1.v==3]}
-if (  sum(class1.v==1) >1){ 
+if (  sum(class1.v==1) >1){
 d1U.o = density(beta1.v[class1.v==1])
 mod1U = d1U.o$x[which.max(d1U.o$y)]
 }
-if (  sum(class1.v==3)>1 ){ 
+if (  sum(class1.v==3)>1 ){
 d1M.o = density(beta1.v[class1.v==3])
 mod1M = d1M.o$x[which.max(d1M.o$y)]
 }
@@ -461,7 +450,7 @@ th2.v = vector();
 th2.v[1] = nth1.v[1] + (mod2U-mod1U);
 th2.v[2] = nth1.v[2] + (mod2M-mod1M);
 
-### estimate initial weight matrix 
+### estimate initial weight matrix
 w0.m = matrix(0,nrow=length(beta2.v),ncol=nL);
 w0.m[which(beta2.v <= th2.v[1]),1] = 1;
 w0.m[intersect(which(beta2.v > th2.v[1]),which(beta2.v <= th2.v[2])),2] = 1;
@@ -603,7 +592,7 @@ type2.idx = which(design.v==2);
 beta1.v = beta.v[type1.idx];
 beta2.v = beta.v[type2.idx];
 pnbeta2.v = pnbeta.v[type2.idx];
-  
+
 } # end of function CheckBMIQ
 
 
@@ -631,7 +620,7 @@ if (onlyIfOutside) { indexSamples=which((minBySample<0 | maxBySample>1) & !is.na
 if (!onlyIfOutside) { indexSamples=1:length(minBySample)}
 if ( length(indexSamples)>=1 ){
 for ( i in indexSamples) {
-y1=c(0.001,0.999) 
+y1=c(0.001,0.999)
 x1=c(minBySample[i],maxBySample[i])
 lm1=lm( y1 ~ x1 )
 intercept1=coef(lm1)[[1]]
