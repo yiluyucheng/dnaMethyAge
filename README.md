@@ -3,25 +3,20 @@ A user friendly **R package** to predict epigenetic age and calculate age accele
 
 ## 1. Usage
 
-#### 1.1 Installation
-There are two ways to install the dnaMethyAge package.
-##### (1) Install from github
+### 1.1 Installation
+
+**Install from Github**
 ```R
+## Make sure 'devetools' is installed in your R
 # install.packages("devtools")
 devtools::install_github("yiluyucheng/dnaMethyAge")
 ```
-##### (2) Or install from source code
-Download the ZIP file(dnaMethyAge-main.zip).
-```R
-install.packages('D:/dnaMethyAge-main.zip', repos = NULL, type="source")
-```
 
+### 2.1 How to use
 
-#### 2.1 How to use
+Start a R work environment
 
-Open a R work environment
-
-* Predict epigenetic age from DNA methylation data.
+#### (1) Predict epigenetic age from DNA methylation data
 
 ```R
 library('dnaMethyAge')
@@ -49,7 +44,7 @@ The above variable **betas** should be a dataframe which samples in the columns 
 Currently, supported age clocks are 'Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2019'. More age models will be added in the future.
 
 
-* 2.2 Predict epigenetic age and calculate age acceleration:
+#### (2)  Predict epigenetic age and calculate age acceleration
 
 ```R
 library('dnaMethyAge')
