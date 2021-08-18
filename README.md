@@ -1,52 +1,81 @@
-# dnaMethAge
-Predict epigenetic age from DNA methylation data, for example, Horvath age, Hannum age, PhenoAge(Levine), Zhang2019.
+# dnaMethyAge
+A user friendly **R package** to predict epigenetic age and calculate age acceleration from DNA methylation data. Supported age clocks are Horvath's clock, Hannum's clock, Levine's PhenoAge, and Zhang's clock.
 
-## Usage
+## 1. Usage
 
-#### Installation
+#### 1.1 Installation
+There are two ways to install the dnaMethyAge package.
+##### (1) Install from github
+```R
+# install.packages("devtools")
+devtools::install_github("yiluyucheng/dnaMethyAge")
 ```
-git clone git@github.com:yiluyucheng/dnaMethAge.git
+##### (2) Or install from source code
+Download the ZIP file(dnaMethyAge-main.zip).
+```R
+install.packages('D:/dnaMethyAge-main.zip', repos = NULL, type="source")
 ```
 
-or download the ZIP file(dnaMethAge-main.zip), after unzip the file.
 
-#### How to use
+#### 2.1 How to use
 
-1. Change the work directory into /dnaMethAge/scripts/
+Open a R work environment
 
-2. Open R environment
-
-* 2.1 Predict Horvath age:
+* Predict epigenetic age from DNA methylation data.
 
 ```R
-source('MethAge.R')
+library('dnaMethyAge')
+
+## prepare betas dataframe
+print(dim(betas))
+# 485577 85
+
+hannum_age <- methyAge(betas, clock='Hannum2013')
+
+## Directly use Horvath's clock without adjusted-BMIQ normalisation 
+horvath_age <- methyAge(betas, clock='Horvath2013', fast_mode=TRUE)
+## Use Horvath's clock with adjusted-BMIQ normalisation (same as Horvath's paper)
 
 horvath_age <- methyAge(betas, clock='Horvath2013')
-hannum_age <- methyAge(betas, clock='Hannum2013')
+
 pheno_age <- methyAge(betas, clock='Levine2018')
+
 zhang_age <- methyAge(betas, clock='Zhang2019')
 
 ```
 
-The $betas$ should be a dataframe which samples in the columns and probe in the rows.
+The above variable **betas** should be a dataframe which samples in the columns and probe in the rows.
 
-Currently, support age clocks are 'Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2019'. 
-
-More age models will be included in the future.
+Currently, supported age clocks are 'Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2019'. More age models will be added in the future.
 
 
-* 2.2 Predict Horvath age and calculate age acceleration:
+* 2.2 Predict epigenetic age and calculate age acceleration:
 
-```
-source('MethAge.R')
+```R
+library('dnaMethyAge')
 
+## prepare betas dataframe
+print(dim(betas))
+# 485577 85
+
+## prepare age_info
+print(dim(info))
+# 85 2
+
+# Apply Hannum's clock and calculate age acceleration
+hannum_age <- methyAge(betas, clock='Hannum2013', age_info=info)
+
+# Apply Horvath's clock and calculate age acceleration
 horvath_age <- methyAge(betas, clock='Horvath2013', age_info=info, fit_method='Linear')
-hannum_age <- methyAge(betas, clock='Hannum2013', age_info=info, fit_method='Linear')
-pheno_age <- methyAge(betas, clock='Levine2018', age_info=info, fit_method='Linear')
+
+# Apply Levine's PhenoAge and calculate age acceleration
+pheno_age <- methyAge(betas, clock='Levine2018', age_info=info)
+
+# Apply Zhang's clock and calculate age acceleration
 zhang_age <- methyAge(betas, clock='Zhang2019', age_info=info, fit_method='Linear')
 ```
 
-$info$ should be a dataframe which contains sample ID and age information, like:
+The above variable **info** should be a dataframe which contains sample ID and age information, like:
 
 Sample | Age
 -------- | -----
@@ -57,9 +86,14 @@ name_3 | 42
 name_n | 53
 
 
-Please also check '/scripts/predict_on_betas.R' to get better known as how to use methyAge.
+Please refer to the below code to learn more about how to use the method.
+```R
+library('dnaMethyAge')
 
-#### Reference
+help(methyAge)
+```
+
+## 2. Reference
 
 Hannum2013: Genome-wide Methylation Profiles Reveal Quantitative Views of Human Aging Rates. Hannum et al., 2013
 
@@ -69,7 +103,7 @@ Levine2018: An epigenetic biomarker of aging for lifespan and healthspan. Levine
 
 Zhang2019: Improved precision of epigenetic clock estimates across tissues and its implication for biological ageing, Zhang et al., 2019
 
-## Contact me
+## 3. Contact me
 
 yw19282@essex.ac.uk
 
