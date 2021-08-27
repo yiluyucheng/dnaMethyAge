@@ -109,7 +109,7 @@ methyAge <- function(betas, clock='Horvath2013', age_info=FALSE, fit_method='Lin
                 if (nrow(m_age) < 1){
                     stop(message("Colnames of the input beta dataframe do not match any of the values of the 'Sample' column in age_info!"))
                 }
-                m_age$Age_Acceleration <- getAccel(m_age$Age, m_age$mAge, method=fit_method)
+                m_age$Age_Acceleration <- getAccel(m_age$Age, m_age$mAge, method=fit_method, title=clock)
             }else{
                 warning(message("\nThe colnames of age_info should include both 'Sample' and 'Age', like:\nSample\tAge\nname1\t30\nname2\t60\nname3\t40\nAge\nAge acceleration will not be calculated."))
             }

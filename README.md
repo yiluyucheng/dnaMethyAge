@@ -29,8 +29,7 @@ hannum_age <- methyAge(betas, clock='Hannum2013')
 
 ## Directly use Horvath's clock without adjusted-BMIQ normalisation 
 horvath_age <- methyAge(betas, clock='Horvath2013', fast_mode=TRUE)
-## Use Horvath's clock with adjusted-BMIQ normalisation (same as Horvath's paper)
-
+## Use Horvath's clock with fixed reference based BMIQ normalisation (same as Horvath's paper)
 horvath_age <- methyAge(betas, clock='Horvath2013')
 
 pheno_age <- methyAge(betas, clock='Levine2018')
