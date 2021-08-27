@@ -6,7 +6,9 @@
 #source("adjustedBMIQ.R")
 
 
-imputation <- function(dat1, goldstandard=probeAnnotation21kdatMethUsed$goldstandard2, fastImputation=FALSE){
+imputation <- function(dat1, 
+                       goldstandard=probeAnnotation21kdatMethUsed$goldstandard2, 
+                       fastImputation=FALSE){
   #STEP 3: Create the output file called datout
   set.seed(1)
   datMethUsed <- t(dat1[, -1])
@@ -54,7 +56,7 @@ imputation <- function(dat1, goldstandard=probeAnnotation21kdatMethUsed$goldstan
 }
 
 
-horvathPreprocess <- function(betas, normalizeData=TRUE){
+horvathPreprocess <- function(betas, normalizeData=TRUE, use_cores=detectCores()){
     #load('horvath_clock.RData')  ## datClock, probeAnnotation21kdatMethUsed
     #probeAnnotation21kdatMethUsed <- read.table('../coefs/27k_reference.txt', header=TRUE)
     data("27k_reference", envir=environment())
@@ -68,8 +70,8 @@ horvathPreprocess <- function(betas, normalizeData=TRUE){
     # STEP 3: Data normalization (each sample requires about 8 seconds). It would be straightforward to parallelize this operation.
     if(normalizeData){
         message("Normalization by adusted BMIQ ...")
-        message(paste0("Estimate running time for normalisation (BMIQ with fixed reference): ", round(5*nrow(betas) / 60, 1), " minutes."))
-        betas <- suppressMessages(t(BMIQcalibration(datM=betas, goldstandard.beta=probeAnnotation21kdatMethUsed$goldstandard2, plots=FALSE)))
+        message(paste0("Estimate running time for normalisation (BMIQ with fixed reference) by a single core: ", round(7.4*nrow(betas) / 60, 1), " minutes."))
+        betas <- suppressMessages(BMIQcalibration(datM=betas, goldstandard.beta=probeAnnotation21kdatMethUsed$goldstandard2, plots=FALSE, use_cores=use_cores))
     }
     return(betas)
 }

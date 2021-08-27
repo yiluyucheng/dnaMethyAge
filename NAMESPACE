@@ -2,6 +2,8 @@
 
 export(getAccel)
 export(methyAge)
+importFrom(parallel,detectCores)
+importFrom(parallel,mclapply)
 importFrom(stats,lm)
 importFrom(stats,loess)
 importFrom(stats,setNames)

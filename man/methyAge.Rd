@@ -9,7 +9,8 @@ methyAge(
   clock = "Horvath2013",
   age_info = FALSE,
   fit_method = "Linear",
-  fast_mode = FALSE
+  fast_mode = FALSE,
+  use_cores = detectCores()
 )
 }
 \arguments{
@@ -27,11 +28,15 @@ choices include "None", "Linear", and "Loess".}
 
 \item{fast_mode}{Default: FALSE, whether not to perform data normalisation for the clock of
 Horvath2013.}
+
+\item{use_cores}{An integer(e.g. 8) defines the number of cores to use when paralleling preprocess the
+normalisation step for Horvath2013. Only valid under Linux OS, default value 
+is the maximum number of cores available.}
 }
 \value{
-A dataframe includes predicated epigenetic ages, the age acceleration values
-is only returned when age_info is supplied with a dataframe contain sample
-age information.
+A dataframe includes predicated epigenetic ages, age acceleration is only 
+returned when age_info is supplied with a dataframe contain sample age 
+information.
 }
 \description{
 Predict epigenetic age from DNA methylation data
@@ -39,8 +44,16 @@ Predict epigenetic age from DNA methylation data
 \examples{
 print(dim(betas))
 # [1] 485577 225
-horvath_age <- methyAge(betas, clock='Horvath2013')
+
+horvath_age <- methyAge(betas, clock='Horvath2013') ## fast mode
+
+## Reliable mode, beta values are subjected to fixed-reference based BMIQ 
+## normalisation, same as Horvath's paper
+horvath_age <- methyAge(betas, clock='Horvath2013', fast_mode=FALSE) 
+
 hannum_age <- methyAge(betas, clock='Hannum2013')
+
 pheno_age <- methyAge(betas, clock='Levine2018')
+
 zhang_age <- methyAge(betas, clock='Zhang2019')
 }
