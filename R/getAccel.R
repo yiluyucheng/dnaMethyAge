@@ -22,8 +22,15 @@
 #' @examples
 #' c_age <- sample(1:100, 20)
 #' m_age <- c_age + sample(1:10, 20, replace = TRUE)
-#' res <- getAccel(c_age, m_age, method='Linear')
+#' 
+#' ## 1. calculate age acceleration
+#' res <- getAccel(c_age, m_age, method='Linear', plot_accel=FALSE)
 #' print(res)
+#' 
+#' ## 2. calculate age acceleration and visualise age accel results.
+#' pdf('savename.pdf', width=4.3, height=6)
+#' res <- getAccel(c_age, m_age, method='Linear', title='TEST')
+#' dev.off()
 #'
 getAccel <- function(c_age, m_age, method='Linear', plot_accel=TRUE, title=''){
   if (length(c_age) < 6){

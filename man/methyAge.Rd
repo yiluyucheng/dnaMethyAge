@@ -42,18 +42,28 @@ information.
 Predict epigenetic age from DNA methylation data
 }
 \examples{
-print(dim(betas))
-# [1] 485577 225
 
-horvath_age <- methyAge(betas, clock='Horvath2013') ## fast mode
+data('subGSE174422') ## load example dataset, include: betas, info.
+print(dim(betas))
+# [1] 485577 8
+
+#### 1. Predict epigenetic age from DNA methylation data
+horvath_age <- methyAge(betas, clock='Horvath2013', fast_mode=TRUE) ## fast mode
 
 ## Reliable mode, beta values are subjected to fixed-reference based BMIQ 
 ## normalisation, same as Horvath's paper
-horvath_age <- methyAge(betas, clock='Horvath2013', fast_mode=FALSE) 
+horvath_age <- methyAge(betas, clock='Horvath2013') 
 
 hannum_age <- methyAge(betas, clock='Hannum2013')
 
 pheno_age <- methyAge(betas, clock='Levine2018')
 
 zhang_age <- methyAge(betas, clock='Zhang2019')
+
+#### 2. Predict epigenetic age and calculate age acceleration
+hannum_age <- methyAge(betas, clock='Hannum2013', age_info=info)
+horvath_age <- methyAge(betas, clock='Horvath2013', age_info=info, fit_method='Linear')
+pheno_age <- methyAge(betas, clock='Levine2018', age_info=info)
+zhang_age <- methyAge(betas, clock='Zhang2019', age_info=info)
+
 }
