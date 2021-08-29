@@ -22,24 +22,27 @@ Start a R work environment
 library('dnaMethyAge')
 
 ## prepare betas dataframe
-print(dim(betas))
-# 485577 85
+data('subGSE174422') ## load example betas
 
-hannum_age <- methyAge(betas, clock='Hannum2013')
+print(dim(betas)) ## probes in row and samples in column
+# 485577 8
 
-## Directly use Horvath's clock without adjusted-BMIQ normalisation 
-horvath_age <- methyAge(betas, clock='Horvath2013', fast_mode=TRUE)
+clock_name <- 'Horvath2013'  # Select one of those: Hannum2013, Horvath2013, Levine2018, Zhang2019.
 ## Use Horvath's clock with adjusted-BMIQ normalisation (same as Horvath's paper)
+horvath_age <- methyAge(betas, clock=clock_name)
 
-horvath_age <- methyAge(betas, clock='Horvath2013')
-
-pheno_age <- methyAge(betas, clock='Levine2018')
-
-zhang_age <- methyAge(betas, clock='Zhang2019')
+print(horvath_age)
+#                         Sample     mAge
+# 1 GSM5310260_3999979009_R02C02 74.88139
+# 2 GSM5310261_3999979017_R05C01 62.36400
+# 3 GSM5310262_3999979018_R02C02 68.04759
+# 4 GSM5310263_3999979022_R02C01 61.62691
+# 5 GSM5310264_3999979027_R02C01 59.65161
+# 6 GSM5310265_3999979028_R01C01 60.95991
+# 7 GSM5310266_3999979029_R04C02 52.48954
+# 8 GSM5310267_3999979031_R06C02 64.29711
 
 ```
-
-The above variable **betas** should be a dataframe which samples in the columns and probe in the rows.
 
 Currently, supported age clocks are 'Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2019'. More age models will be added in the future.
 
@@ -50,38 +53,50 @@ Currently, supported age clocks are 'Hannum2013', 'Horvath2013', 'Levine2018', '
 library('dnaMethyAge')
 
 ## prepare betas dataframe
-print(dim(betas))
-# 485577 85
+data('subGSE174422') ## load example betas and info
 
-## prepare age_info
-print(dim(info))
-# 85 2
+print(dim(betas)) ## probes in row and samples in column
+# 485577 8
+print(info) ##  info should be a dataframe which includes at least two columns: Sample, Age.
+#                         Sample  Age    Sex
+# 1 GSM5310260_3999979009_R02C02 68.8 Female
+# 2 GSM5310261_3999979017_R05C01 45.6 Female
+# 3 GSM5310262_3999979018_R02C02 67.4 Female
+# 4 GSM5310263_3999979022_R02C01 45.6 Female
+# 5 GSM5310264_3999979027_R02C01 62.5 Female
+# 6 GSM5310265_3999979028_R01C01 45.1 Female
+# 7 GSM5310266_3999979029_R04C02 53.2 Female
+# 8 GSM5310267_3999979031_R06C02 63.8 Female
 
-# Apply Hannum's clock and calculate age acceleration
-hannum_age <- methyAge(betas, clock='Hannum2013', age_info=info)
 
-# Apply Horvath's clock and calculate age acceleration
-horvath_age <- methyAge(betas, clock='Horvath2013', age_info=info, fit_method='Linear')
+clock_name <- 'Horvath2013'  # Select one of those: Hannum2013, Horvath2013, Levine2018, Zhang2019.
+## Apply Horvath's clock and calculate age acceleration
+## Use Horvath's clock with adjusted-BMIQ normalisation (same as Horvath's paper)
+horvath_age <- methyAge(betas, clock=clock_name, age_info=info, fit_method='Linear', do_plot=TRUE)
 
-# Apply Levine's PhenoAge and calculate age acceleration
-pheno_age <- methyAge(betas, clock='Levine2018', age_info=info)
-
-# Apply Zhang's clock and calculate age acceleration
-zhang_age <- methyAge(betas, clock='Zhang2019', age_info=info, fit_method='Linear')
+print(horvath_age)
+#                         Sample  Age    Sex     mAge Age_Acceleration
+# 1 GSM5310260_3999979009_R02C02 68.8 Female 74.88139         7.334461
+# 2 GSM5310261_3999979017_R05C01 45.6 Female 62.36400         3.318402
+# 3 GSM5310262_3999979018_R02C02 67.4 Female 68.04759         1.013670
+# 4 GSM5310263_3999979022_R02C01 45.6 Female 61.62691         2.581311
+# 5 GSM5310264_3999979027_R02C01 62.5 Female 59.65161        -5.586763
+# 6 GSM5310265_3999979028_R01C01 45.1 Female 60.95991         2.097534
+# 7 GSM5310266_3999979029_R04C02 53.2 Female 52.48954        -9.340977
+# 8 GSM5310267_3999979031_R06C02 63.8 Female 64.29711        -1.417638
 ```
 
-The above variable **info** should be a dataframe which contains sample ID and age information, like:
+By default, methyAge would plot the age prediction results and the distribution of age acceleration, to save the plot:
+```R
+pdf('savename.pdf', width=4.3, height=6)
+horvath_age <- methyAge(betas, clock=clock_name, age_info=info, fit_method='Linear', do_plot=TRUE)
+dev.off()
+```
+Here is the result plot(very nice!):
 
-Sample | Age
--------- | -----
-name_1 | 31
-name_2 | 60
-name_3 | 42
-... | ...
-name_n | 53
+<img width="320" src="https://github.com/yiluyucheng/dnaMethyAge/blob/main/test_res/test_result1.png">
 
-
-Please refer to the below code to learn more about how to use the method.
+Now you can try other clocks by simply redefine the 'clock_name' and keep other codes unedited. Normally, the clock of Horvath2013 costs the highest amount of time due to its unefficient normalisation steps, for other clocks such as Hannum2013, the overall running time is very short. Please refer to the below code to learn more about how to use the method.
 ```R
 library('dnaMethyAge')
 
