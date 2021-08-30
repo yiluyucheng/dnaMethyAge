@@ -4,7 +4,7 @@
 \alias{getAccel}
 \title{Calculate age acceleration.}
 \usage{
-getAccel(c_age, m_age, method = "Linear", plot_accel = TRUE, title = "")
+getAccel(c_age, m_age, method = "Linear", do_plot = TRUE, title = "")
 }
 \arguments{
 \item{c_age}{A vector includes the chronological age of each sample.}
@@ -14,7 +14,7 @@ getAccel(c_age, m_age, method = "Linear", plot_accel = TRUE, title = "")
 \item{method}{Default: 'Linear', methods to calculate age acceleration, available choices
 include "None", "Linear", and "Loess".}
 
-\item{plot_accel}{Default: TRUE, whether to visualise the age acceleration results.}
+\item{do_plot}{Default: TRUE, whether to visualise the age acceleration results.}
 
 \item{title}{Default: NA, set the title for the plot.}
 }
@@ -27,7 +27,14 @@ Calculate age acceleration.
 \examples{
 c_age <- sample(1:100, 20)
 m_age <- c_age + sample(1:10, 20, replace = TRUE)
-res <- getAccel(c_age, m_age, method='Linear')
+
+## 1. calculate age acceleration
+res <- getAccel(c_age, m_age, method='Linear', do_plot=FALSE)
 print(res)
+
+## 2. calculate age acceleration and visualise age accel results.
+pdf('savename.pdf', width=4.3, height=6)
+res <- getAccel(c_age, m_age, method='Linear', title='TEST')
+dev.off()
 
 }

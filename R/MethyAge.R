@@ -14,6 +14,9 @@
 #' @param fit_method
 #' Default: 'Linear', select a method to calculate age acceleration, avaliabe
 #' choices include "None", "Linear", and "Loess".
+#' @param do_plot
+#' Default: TRUE, whether to visualise the age acceleration results. Only valid 
+#' when age_info is supplied with expected values.
 #' @param fast_mode
 #' Default: FALSE, whether not to perform data normalisation for the clock of
 #' Horvath2013.
@@ -59,7 +62,8 @@
 #' zhang_age <- methyAge(betas, clock='Zhang2019', age_info=info)
 #' 
 
-methyAge <- function(betas, clock='Horvath2013', age_info=FALSE, fit_method='Linear', fast_mode=FALSE, use_cores=detectCores()){
+methyAge <- function(betas, clock='Horvath2013', age_info=FALSE, fit_method='Linear', 
+                     do_plot=TRUE, fast_mode=FALSE, use_cores=detectCores()){
     ## prepare clock coefficients
     usable_clocks <- c('Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2019')
     if (!(clock %in% usable_clocks)){
@@ -119,7 +123,7 @@ methyAge <- function(betas, clock='Horvath2013', age_info=FALSE, fit_method='Lin
                 if (nrow(m_age) < 1){
                     stop(message("Colnames of the input beta dataframe do not match any of the values of the 'Sample' column in age_info!"))
                 }
-                m_age$Age_Acceleration <- getAccel(m_age$Age, m_age$mAge, method=fit_method, title=clock)
+                m_age$Age_Acceleration <- getAccel(m_age$Age, m_age$mAge, method=fit_method, title=clock, do_plot=do_plot)
             }else{
                 warning(message("\nThe colnames of age_info should include both 'Sample' and 'Age', like:\nSample\tAge\nname1\t30\nname2\t60\nname3\t40\nAge\nAge acceleration will not be calculated."))
             }

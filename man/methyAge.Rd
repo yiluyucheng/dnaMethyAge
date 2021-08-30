@@ -9,6 +9,7 @@ methyAge(
   clock = "Horvath2013",
   age_info = FALSE,
   fit_method = "Linear",
+  do_plot = TRUE,
   fast_mode = FALSE,
   use_cores = detectCores()
 )
@@ -25,6 +26,9 @@ as a dataframe which contains sample ID and age information.}
 
 \item{fit_method}{Default: 'Linear', select a method to calculate age acceleration, avaliabe
 choices include "None", "Linear", and "Loess".}
+
+\item{do_plot}{Default: TRUE, whether to visualise the age acceleration results. Only valid 
+when age_info is supplied with expected values.}
 
 \item{fast_mode}{Default: FALSE, whether not to perform data normalisation for the clock of
 Horvath2013.}
