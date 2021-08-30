@@ -104,11 +104,16 @@ help(methyAge)
 ```
 
 
-Lastly, I provide the epiginetic age prediction results in four clocks for [GSE174422](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE174422) in below(click on the image to have a more clear look). It should be noted, the four clocks' prediciton performance may vary in different datasets, and Levine2018 also known as PhenoAge was not directly trained on chronological age.
+Lastly, I provide the epiginetic age prediction results in four clocks for [GSE174422](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE174422) in below(click on the image to have a more clear look). 
 
 <img width="960" src="https://github.com/yiluyucheng/dnaMethyAge/blob/main/test_res/test_result2.png">
 
-## 2. Reference
+## 2. Attention
+The original model of Hannum2013 not only uses the 72 CpG sites, but also includes covariates gender, BMI, diabetes status, ethnicity and batch, howevever, the authors did not provide the coefficients for those covariates. In this method, I only used the 72 CpG sites to calculate the Hannum2013 age, and this is the commom practice in this field.
+
+The four clocks' prediciton performance may vary in different datasets, and the Levine2018 also known as PhenoAge was not directly trained on chronological age.
+
+## 3. Reference
 
 Hannum2013: Genome-wide Methylation Profiles Reveal Quantitative Views of Human Aging Rates. Hannum et al., 2013
 
@@ -118,7 +123,7 @@ Levine2018: An epigenetic biomarker of aging for lifespan and healthspan. Levine
 
 Zhang2019: Improved precision of epigenetic clock estimates across tissues and its implication for biological ageing, Zhang et al., 2019
 
-## 3. Contact me
+## 4. Contact me
 
 yw19282@essex.ac.uk
 
