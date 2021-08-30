@@ -104,7 +104,7 @@ help(methyAge)
 ```
 
 
-Lastly, I provide the epiginetic age prediction results in four clocks for [GSE174422](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE174422) in below. It should be noted, the four clocks' prediciton performance may vary in different datasets, and Levine2018 also known as PhenoAge was not directly trained on chronological age.
+Lastly, I provide the epiginetic age prediction results in four clocks for [GSE174422](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE174422) in below(click on the image to have a more clear look). It should be noted, the four clocks' prediciton performance may vary in different datasets, and Levine2018 also known as PhenoAge was not directly trained on chronological age.
 
 <img width="960" src="https://github.com/yiluyucheng/dnaMethyAge/blob/main/test_res/test_result2.png">
 
