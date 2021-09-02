@@ -67,8 +67,8 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title=''){
     MAE <- mean(abs(c_age - m_age))
     ## plot m_age vs c_age
     par(fig=c(0, 0.96, 0.45, 0.98), mai=c(0, 0.9, 0.25, 0.1))
-    plot(c_age, m_age, xlim=c(0, 100), ylim=c(0, 100), xlab='', ylab='mAge', 
-         main=title, cex=cex_size, col=color, pch=16)
+    plot(c_age, m_age, xlim=c(min(0, c_age), max(100, c_age)), ylim=c(min(0, m_age), max(100, m_age)), 
+         xlab='', ylab='mAge', main=title, cex=cex_size, col=color, pch=16)
     
     text(-2, 97, paste0("Pearson's r = ", round(cor(c_age, m_age), 3)),
          cex=0.7, pos=4)
@@ -93,7 +93,8 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title=''){
     
     ## plot accel vs age
     par(fig=c(0, 0.96, 0, 0.45), mai=c(0.9, 0.9, 0.52, 0.1), new=TRUE)
-    plot(c_age, accel, xlim=c(0, 100), ylim=c(-30, 30), xlab='Chronological Age', 
+    plot(c_age, accel, xlim=c(min(0, c_age), max(100, c_age)), 
+         ylim=c(min(-30, accel), max(30, accel)), xlab='Chronological Age', 
          ylab='Age Acceleration', cex=cex_size, col=color, pch=16)
     abline(a=0, b=0, col='red', lty=2, lwd=1.5)
   }
