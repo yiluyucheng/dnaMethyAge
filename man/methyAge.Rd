@@ -7,7 +7,7 @@
 methyAge(
   betas,
   clock = "Horvath2013",
-  age_info = FALSE,
+  age_info = NA,
   fit_method = "Linear",
   do_plot = TRUE,
   fast_mode = FALSE,
@@ -21,8 +21,8 @@ beta = M / (M + U + 100).}
 \item{clock}{Default: 'Horvath2013', define the clock name to use, currently supported
 clocks are 'Hannum2013', 'Horvath2013', 'Levine2018', and 'Zhang2019'.}
 
-\item{age_info}{Default: FALSE, to calculate the age acceleration, you need make 'age_info'
-as a dataframe which contains sample ID and age information.}
+\item{age_info}{Default: NA, in order to calculate the age acceleration, you need to provide 'age_info'
+with a dataframe which contains sample ID and age information.}
 
 \item{fit_method}{Default: 'Linear', select a method to calculate age acceleration, avaliabe
 choices include "None", "Linear", and "Loess".}
