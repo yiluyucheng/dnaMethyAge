@@ -82,17 +82,20 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='', poin
     }
     RMSE <- sqrt(mean((c_age - m_age)^2))
     MAE <- mean(abs(c_age - m_age))
+    ylims <- c(min(0, m_age), max(100, m_age))
+    yrange <- ylims[2] - ylims[1]
+    xlims <- c(min(0, c_age), max(100, c_age))
+    xrange <- xlims[2] - xlims[1]
     ## plot m_age vs c_age
     par(fig=c(0, 0.96, 0.45, 0.98), mai=c(0, 0.9, 0.25, 0.1))
-    plot(c_age, m_age, xlim=c(min(0, c_age), max(100, c_age)), ylim=c(min(0, m_age), max(100, m_age)), 
-         xlab='', ylab='mAge', main=title, cex=cex_size, col=color, pch=point_pch, lwd=1.5)
-    
-    text(-2, 97, paste0("Pearson's r = ", round(cor(c_age, m_age), 3)),
+    plot(c_age, m_age, xlim=xlims, ylim=ylims, xlab='', ylab='mAge', main=title, 
+         cex=cex_size, col=color, pch=point_pch, lwd=1.5)
+    text(xlims[1], ylims[2] - yrange*0.03, paste0("Pearson's r = ", round(cor(c_age, m_age), 3)),
          cex=0.7, pos=4)
-    text(-2, 92,  paste0("RMSE = ", round(RMSE, 2)), cex=0.7, pos=4)
-    text(-2, 87,  paste0("MAE = ", round(MAE, 2)), cex=0.7, pos=4)
+    text(xlims[1], ylims[2] - yrange*0.08,  paste0("RMSE = ", round(RMSE, 2)), cex=0.7, pos=4)
+    text(xlims[1], ylims[2] - yrange*0.13,  paste0("MAE = ", round(MAE, 2)), cex=0.7, pos=4)
     if (plot_legend){
-      legend(0, 82, levels(color), col=1:length(levels(color)), pch=point_pch, box.col='gray', cex=0.6)
+      legend(xlims[1], ylims[2] - yrange*0.18, levels(color), col=1:length(levels(color)), pch=point_pch, box.col='gray', cex=0.6)
     }
     
     ## add fitted line
@@ -100,15 +103,15 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='', poin
       line_col <- 'red'
     }else if(method == "Linear"){
       abline(fit_model, col='red', lty=2, lwd=2)
-      text(102, 3, paste0("y = ", round(fit_model$coefficients[2], 2), "x + ",
+      text(xlims[2], ylims[1] + yrange*0.03, paste0("y = ", round(fit_model$coefficients[2], 2), "x + ",
                          round(fit_model$coefficients[1], 2)), pos=2, col='red', cex=0.7)
     }else if(method == "Loess"){
       j <- order(c_age)
       lines(c_age[j], fit_model$fitted[j], col='red', lty=2, lwd=2)
-      text(102, 3, paste0("y = loess_fit(x)"), pos=2, col='red', cex=0.7)
+      text(xlims[2], ylims[1] + yrange*0.03, paste0("y = loess_fit(x)"), pos=2, col='red', cex=0.7)
     }
     abline(a=0, b=1, col=line_col, lty=2, lwd=1.5)
-    text(100, 8, expression(y==x), pos=2, col=line_col, cex=0.7)
+    text(xlims[2], ylims[1] + yrange*0.08, expression(y==x), pos=2, col=line_col, cex=0.7)
     
     
     ## plot accel vs age
