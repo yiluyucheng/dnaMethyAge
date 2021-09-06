@@ -58,15 +58,19 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='', poin
     par(mai=c(0.1, 0, 0.05, 0.1))
     plot_legend <- FALSE
     point_pch <- 1
+    base_colors <- colors()
     if(is.na(point_color[1])){
       color <- rgb(red = 0, green = 0, blue = 0, alpha = 0.5)
       point_pch <- 16
-    } else if (length(point_color) > 1){
-      color <- as.factor(point_color)
-      plot_legend <- TRUE
-    } else {
+    } else if (all(point_color %in% base_colors)){
       color <- point_color
+    } else {
+      color <- as.factor(point_color)
+      if (length(levels(color)) > 1){
+        plot_legend <- TRUE
+      }
     }
+    
     line_col <- 'blue'
     num <- length(c_age)
     if (num < 50){
@@ -88,7 +92,7 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='', poin
     text(-2, 92,  paste0("RMSE = ", round(RMSE, 2)), cex=0.7, pos=4)
     text(-2, 87,  paste0("MAE = ", round(MAE, 2)), cex=0.7, pos=4)
     if (plot_legend){
-      legend(0, 82, levels(color), col=1:length(color), pch=point_pch, box.col='gray', cex=0.6)
+      legend(0, 82, levels(color), col=1:length(levels(color)), pch=point_pch, box.col='gray', cex=0.6)
     }
     
     ## add fitted line
