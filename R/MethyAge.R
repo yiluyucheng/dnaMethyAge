@@ -115,12 +115,12 @@ methyAge <- function(betas, clock='Horvath2013', age_info=NA, fit_method='Linear
     warning_message <- "\n'age_info' should be a dataframe which contains sample ID and age information, like:\nSample\tAge\nname1\t30\nname2\t60\nname3\t40\nAge acceleration will not be calculated."
     if (class(age_info) == "data.frame") {
             if (all(c('Sample', 'Age') %in% colnames(age_info))){
-                m_age <- merge(age_info, m_age, by='Sample')
+                m_age <- merge(age_info, m_age, by='Sample', sort=FALSE)
                 if (nrow(m_age) < 1){
                     stop(message("Colnames of the input beta dataframe do not match any of the values of the 'Sample' column in age_info!"))
                 }
                 if("Color" %in% colnames(age_info)){
-                    point_color <- age_info$Color
+                    point_color <- m_age$Color
                 }else{
                     point_color <- NA
                 }
