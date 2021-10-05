@@ -1,5 +1,5 @@
 # dnaMethyAge
-A user friendly **R package** to predict epigenetic age and calculate age acceleration from DNA methylation data. Supported age clocks are Horvath's clock, Hannum's clock, Levine's PhenoAge, and Zhang's clock.
+A user friendly **R package** to predict epigenetic age and calculate age acceleration from DNA methylation data. Supported age clocks are Horvath's clock, Hannum's clock, Levine's PhenoAge, Zhang's clock and Shireby's cortex clock.
 
 ## 1. Usage
 
@@ -27,7 +27,7 @@ data('subGSE174422') ## load example betas
 print(dim(betas)) ## probes in row and samples in column
 # 485577 8
 
-clock_name <- 'Horvath2013'  # Select one of those: Hannum2013, Horvath2013, Levine2018, Zhang2019.
+clock_name <- 'Horvath2013'  # Select one of those: Hannum2013, Horvath2013, Levine2018, Zhang2019, Shireby2020.
 ## Use Horvath's clock with adjusted-BMIQ normalisation (same as Horvath's paper)
 horvath_age <- methyAge(betas, clock=clock_name)
 
@@ -115,13 +115,15 @@ The four clocks' prediciton performance may vary in different datasets, and the 
 
 ## 3. Reference
 
-Hannum2013: Genome-wide Methylation Profiles Reveal Quantitative Views of Human Aging Rates. Hannum et al., 2013
+Hannum2013: Genome-wide Methylation Profiles Reveal Quantitative Views of Human Aging Rates. Hannum et al.(2013)
 
-Horvath2013: DNA methylation age of human tissues and cell types. Steve Horvath, 2013
+Horvath2013: DNA methylation age of human tissues and cell types. Steve Horvath(2013)
 
-Levine2018: An epigenetic biomarker of aging for lifespan and healthspan. Levine et al., 2018
+Levine2018: An epigenetic biomarker of aging for lifespan and healthspan. Levine et al.(2018)
 
-Zhang2019: Improved precision of epigenetic clock estimates across tissues and its implication for biological ageing, Zhang et al., 2019
+Zhang2019: Improved precision of epigenetic clock estimates across tissues and its implication for biological ageing, Zhang et al.(2019)
+
+Shireby2020: Recalibrating the epigenetic clock: implications for assessing biological age in the human cortex, Shireby et al.(2020)
 
 ## 4. Contact me
 

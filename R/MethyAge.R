@@ -65,7 +65,8 @@
 methyAge <- function(betas, clock='Horvath2013', age_info=NA, fit_method='Linear', 
                      do_plot=TRUE, fast_mode=FALSE, use_cores=detectCores()){
     ## prepare clock coefficients
-    usable_clocks <- c('Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2019')
+    usable_clocks <- c('Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2019',
+                       'Shireby2020')
     if (!(clock %in% usable_clocks)){
         stop(paste(c("Unavailable for the user input clock:", clock,
                      "\n  Please choose one of the available clocks:", usable_clocks), collapse=" "))
@@ -97,7 +98,7 @@ methyAge <- function(betas, clock='Horvath2013', age_info=NA, fit_method='Linear
     }
 
     ## post transformation
-    if(clock == 'Horvath2013'){
+    if(clock %in% c('Horvath2013', 'Shireby2020')){
         horvath2013_transform <- function(x){
             if (x > 0){
                 x <- x *(20 + 1) + 20
