@@ -27,7 +27,10 @@ data('subGSE174422') ## load example betas
 print(dim(betas)) ## probes in row and samples in column
 # 485577 8
 
-clock_name <- 'Horvath2013'  # Select one of those: Hannum2013, Horvath2013, Levine2018, Zhang2019, Shireby2020.
+availableClock() ## List all supported clocks
+# "HannumG2013"  "HorvathS2013" "LevineM2018"  "ZhangQ2019"   "ShirebyG2020"  "YangZ2016"    "ZhangY2017"
+
+clock_name <- 'HorvathS2013'  # Select one of the supported clocks.
 ## Use Horvath's clock with adjusted-BMIQ normalisation (same as Horvath's paper)
 horvath_age <- methyAge(betas, clock=clock_name)
 
@@ -44,7 +47,7 @@ print(horvath_age)
 
 ```
 
-Currently, supported age clocks are 'Hannum2013', 'Horvath2013', 'Levine2018', 'Zhang2019'. More age models will be added in the future.
+More age models will be added in the future, please get contact if you would like me to add a new clock.
 
 
 #### (2)  Predict epigenetic age and calculate age acceleration
@@ -69,7 +72,7 @@ print(info) ##  info should be a dataframe which includes at least two columns: 
 # 8 GSM5310267_3999979031_R06C02 63.8 Female
 
 
-clock_name <- 'Horvath2013'  # Select one of those: Hannum2013, Horvath2013, Levine2018, Zhang2019.
+clock_name <- 'HorvathS2013'  # Select one of the supported clocks, try: availableClock()
 ## Apply Horvath's clock and calculate age acceleration
 ## Use Horvath's clock with adjusted-BMIQ normalisation (same as Horvath's paper)
 horvath_age <- methyAge(betas, clock=clock_name, age_info=info, fit_method='Linear', do_plot=TRUE)
@@ -115,15 +118,19 @@ The four clocks' prediciton performance may vary in different datasets, and the 
 
 ## 3. Reference
 
-Hannum2013: Genome-wide Methylation Profiles Reveal Quantitative Views of Human Aging Rates. Hannum et al.(2013)
+HannumG2013: Genome-wide Methylation Profiles Reveal Quantitative Views of Human Aging Rates. Hannum et al.(2013)
 
-Horvath2013: DNA methylation age of human tissues and cell types. Steve Horvath(2013)
+HorvathS2013: DNA methylation age of human tissues and cell types. Steve Horvath(2013)
 
-Levine2018: An epigenetic biomarker of aging for lifespan and healthspan. Levine et al.(2018)
+LevineM2018: An epigenetic biomarker of aging for lifespan and healthspan. Levine et al.(2018)
 
-Zhang2019: Improved precision of epigenetic clock estimates across tissues and its implication for biological ageing, Zhang et al.(2019)
+ZhangQ2019: Improved precision of epigenetic clock estimates across tissues and its implication for biological ageing, Zhang et al.(2019)
 
-Shireby2020: Recalibrating the epigenetic clock: implications for assessing biological age in the human cortex, Shireby et al.(2020)
+ShirebyG2020: Recalibrating the epigenetic clock: implications for assessing biological age in the human cortex, Shireby et al.(2020)
+
+YangZ2016:Correlation of an epigenetic mitotic clock with cancer risk, Yang et al.(2016)
+
+ZhangY2017: DNA methylation signatures in peripheral blood strongly predict all-cause mortality, Zhang et al.(2017)
 
 ## 4. Contact me
 
