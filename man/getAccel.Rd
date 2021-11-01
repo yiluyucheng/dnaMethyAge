@@ -10,7 +10,10 @@ getAccel(
   method = "Linear",
   do_plot = TRUE,
   title = "",
-  point_color = NA
+  point_color = NA,
+  simple = FALSE,
+  x_lim = c(0, 100),
+  y_lim = c(0, 100)
 )
 }
 \arguments{

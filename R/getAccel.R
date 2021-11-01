@@ -35,7 +35,8 @@
 #' res <- getAccel(c_age, m_age, method='Linear', title='TEST')
 #' dev.off()
 #'
-getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='', point_color=NA){
+getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='', 
+                     point_color=NA, simple=FALSE, x_lim=c(0, 100), y_lim=c(0, 100)){
   if (length(c_age) < 6){
     method <- "None"
   }
@@ -80,20 +81,18 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='', poin
     } else {
       cex_size <- 0.6
     }
-    RMSE <- sqrt(mean((c_age - m_age)^2))
-    MAE <- mean(abs(c_age - m_age))
-    ylims <- c(min(0, m_age), max(100, m_age))
+    
+    ylims <- c(min(y_lim[1], m_age), max(y_lim[2], m_age))
     yrange <- ylims[2] - ylims[1]
-    xlims <- c(min(0, c_age), max(100, c_age))
+    xlims <- c(min(x_lim[1], c_age), max(x_lim[2], c_age))
     xrange <- xlims[2] - xlims[1]
     ## plot m_age vs c_age
     par(fig=c(0, 0.96, 0.45, 0.98), mai=c(0, 0.9, 0.25, 0.1))
     plot(c_age, m_age, xlim=xlims, ylim=ylims, xlab='', ylab='mAge', main=title, 
          cex=cex_size, col=color, pch=point_pch, lwd=1.5)
-    text(xlims[1], ylims[2] - yrange*0.03, paste0("Pearson's r = ", round(cor(c_age, m_age), 3)),
+    text(xlims[1], ylims[2] - yrange*0.03, paste0("Pearson's r = ", signif(cor(c_age, m_age), 3)),
          cex=0.7, pos=4)
-    text(xlims[1], ylims[2] - yrange*0.08,  paste0("RMSE = ", round(RMSE, 2)), cex=0.7, pos=4)
-    text(xlims[1], ylims[2] - yrange*0.13,  paste0("MAE = ", round(MAE, 2)), cex=0.7, pos=4)
+    
     if (plot_legend){
       legend(xlims[1], ylims[2] - yrange*0.18, levels(color), col=1:length(levels(color)), pch=point_pch, box.col='gray', cex=0.6)
     }
@@ -103,21 +102,28 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='', poin
       line_col <- 'red'
     }else if(method == "Linear"){
       abline(fit_model, col='red', lty=2, lwd=2)
-      text(xlims[2], ylims[1] + yrange*0.03, paste0("y = ", round(fit_model$coefficients[2], 2), "x + ",
-                         round(fit_model$coefficients[1], 2)), pos=2, col='red', cex=0.7)
+      text(xlims[2], ylims[1] + yrange*0.03, paste0("y = ", signif(fit_model$coefficients[2], 2), " * x + ",
+                                                    signif(fit_model$coefficients[1], 2)), pos=2, col='red', cex=0.7)
     }else if(method == "Loess"){
       j <- order(c_age)
       lines(c_age[j], fit_model$fitted[j], col='red', lty=2, lwd=2)
       text(xlims[2], ylims[1] + yrange*0.03, paste0("y = loess_fit(x)"), pos=2, col='red', cex=0.7)
     }
-    abline(a=0, b=1, col=line_col, lty=2, lwd=1.5)
-    text(xlims[2], ylims[1] + yrange*0.08, expression(y==x), pos=2, col=line_col, cex=0.7)
+    
+    if(!simple){
+      RMSE <- sqrt(mean((c_age - m_age)^2))
+      MAE <- mean(abs(c_age - m_age))
+      text(xlims[1], ylims[2] - yrange*0.08,  paste0("RMSE = ", signif(RMSE, 3)), cex=0.7, pos=4)
+      text(xlims[1], ylims[2] - yrange*0.13,  paste0("MAE = ", signif(MAE, 3)), cex=0.7, pos=4)
+      abline(a=0, b=1, col=line_col, lty=2, lwd=1.5)
+      text(xlims[2], ylims[1] + yrange*0.08, expression(y==x), pos=2, col=line_col, cex=0.7)
+    }
     
     
     ## plot accel vs age
     par(fig=c(0, 0.96, 0, 0.45), mai=c(0.9, 0.9, 0.52, 0.1), new=TRUE)
     plot(c_age, accel, xlim=c(min(0, c_age), max(100, c_age)), 
-         ylim=c(min(-30, accel), max(30, accel)), xlab='Chronological Age', 
+         ylim=c(min(-0.3*yrange, accel), max(0.3 * yrange, accel)), xlab='Chronological Age', 
          ylab='Age Acceleration', cex=cex_size, col=color, pch=point_pch, lwd=1.5)
     abline(a=0, b=0, col='red', lty=2, lwd=1.5)
   }
