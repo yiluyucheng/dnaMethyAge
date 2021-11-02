@@ -6,7 +6,7 @@
 \usage{
 methyAge(
   betas,
-  clock = "Horvath2013",
+  clock = "HorvathS2013",
   age_info = NA,
   fit_method = "Linear",
   do_plot = TRUE,
@@ -18,8 +18,8 @@ methyAge(
 \item{betas}{A dataframe with column names as sample ID and row names as probe name,
 beta = M / (M + U + 100).}
 
-\item{clock}{Default: 'Horvath2013', define the clock name to use, currently supported
-clocks are 'Hannum2013', 'Horvath2013', 'Levine2018', and 'Zhang2019'.}
+\item{clock}{Default: 'HorvathS2013', define the clock name to use, currently supported
+clocks are 'HannumG2013', 'HorvathS2013', 'LevineM2018', and 'ZhangQ2019'.}
 
 \item{age_info}{Default: NA, in order to calculate the age acceleration, you need to provide 'age_info'
 with a dataframe which contains sample ID and age information.}
@@ -31,10 +31,10 @@ choices include "None", "Linear", and "Loess".}
 when age_info is supplied with expected values.}
 
 \item{fast_mode}{Default: FALSE, whether not to perform data normalisation for the clock of
-Horvath2013.}
+HorvathS2013.}
 
 \item{use_cores}{An integer(e.g. 8) defines the number of cores to use when paralleling preprocess the
-normalisation step for Horvath2013. Only valid under Linux OS, default value 
+normalisation step for HorvathS2013. Only valid under Linux OS, default value 
 is the maximum number of cores available.}
 }
 \value{
@@ -52,22 +52,22 @@ print(dim(betas))
 # [1] 485577 8
 
 #### 1. Predict epigenetic age from DNA methylation data
-horvath_age <- methyAge(betas, clock='Horvath2013', fast_mode=TRUE) ## fast mode
+horvath_age <- methyAge(betas, clock='HorvathS2013', fast_mode=TRUE) ## fast mode
 
 ## Reliable mode, beta values are subjected to fixed-reference based BMIQ 
 ## normalisation, same as Horvath's paper
-horvath_age <- methyAge(betas, clock='Horvath2013') 
+horvath_age <- methyAge(betas, clock='HorvathS2013') 
 
-hannum_age <- methyAge(betas, clock='Hannum2013')
+hannum_age <- methyAge(betas, clock='HannumG2013')
 
-pheno_age <- methyAge(betas, clock='Levine2018')
+pheno_age <- methyAge(betas, clock='LevineM2018')
 
-zhang_age <- methyAge(betas, clock='Zhang2019')
+zhang_age <- methyAge(betas, clock='ZhangQ2019')
 
 #### 2. Predict epigenetic age and calculate age acceleration
-hannum_age <- methyAge(betas, clock='Hannum2013', age_info=info)
-horvath_age <- methyAge(betas, clock='Horvath2013', age_info=info, fit_method='Linear')
-pheno_age <- methyAge(betas, clock='Levine2018', age_info=info)
-zhang_age <- methyAge(betas, clock='Zhang2019', age_info=info)
+hannum_age <- methyAge(betas, clock='HannumG2013', age_info=info)
+horvath_age <- methyAge(betas, clock='HorvathS2013', age_info=info, fit_method='Linear')
+pheno_age <- methyAge(betas, clock='LevineM2018', age_info=info)
+zhang_age <- methyAge(betas, clock='ZhangQ2019', age_info=info)
 
 }
