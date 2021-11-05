@@ -15,6 +15,9 @@
 #' @param point_color
 #' Default: NA, define the color for the points in the plot, can be a character or
 #' a vector of characters.
+#' @param point_shape
+#' Default: NA, define the shape for the points in the plot, can be a single 
+#' integer or a vector of characters.
 #' 
 #'
 #' @return
@@ -36,7 +39,7 @@
 #' dev.off()
 #'
 getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='', 
-                     point_color=NA, simple=FALSE, x_lim=c(0, 100), y_lim=c(0, 100)){
+                     point_color=NA, point_shape=NA, simple=FALSE, x_lim=c(0, 100), y_lim=c(0, 100)){
   if (length(c_age) < 6){
     method <- "None"
   }
@@ -58,18 +61,18 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
   if(do_plot){
     par(mai=c(0.1, 0, 0.05, 0.1))
     plot_legend <- FALSE
-    point_pch <- 1
+    if(is.na(point_shape[1])){
+      point_pch <- 1
+    } else {
+      point_pch <- as.numeric(as.factor(point_shape))
+    }
     base_colors <- colors()
     if(is.na(point_color[1])){
       color <- rgb(red = 0, green = 0, blue = 0, alpha = 0.5)
-      point_pch <- 16
     } else if (all(point_color %in% base_colors)){
       color <- point_color
     } else {
       color <- as.factor(point_color)
-      if (length(levels(color)) > 1){
-        plot_legend <- TRUE
-      }
     }
     
     line_col <- 'blue'
@@ -93,8 +96,15 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
     text(xlims[1], ylims[2] - yrange*0.03, paste0("Pearson's r = ", signif(cor(c_age, m_age), 3)),
          cex=0.7, pos=4)
     
-    if (plot_legend){
-      legend(xlims[1], ylims[2] - yrange*0.18, levels(color), col=1:length(levels(color)), pch=point_pch, box.col='gray', cex=0.6)
+    u_pch <- unique(point_shape)
+    if((length(u_pch) > 1) & (length(levels(color)) > 1)){
+      legend(xlims[1], ylims[2] - yrange*0.18, c(levels(color), u_pch), 
+             col=c(1:length(levels(color)), rep(1, length(u_pch))), 
+             pch=c(rep(16, length(levels(color))), unique(point_pch)), box.col='gray', cex=0.6)
+    }else if(length(levels(color)) > 1){
+      legend(xlims[1], ylims[2] - yrange*0.18, levels(color), col=1:length(levels(color)), pch=point_pch[1], box.col='gray', cex=0.6)
+    }else if(length(u_pch) > 1){
+      legend(xlims[1], ylims[2] - yrange*0.18, u_pch, col=rep(1, length(u_pch)), pch=unique(point_pch), box.col='gray', cex=0.6)
     }
     
     ## add fitted line

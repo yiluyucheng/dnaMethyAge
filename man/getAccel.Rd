@@ -11,6 +11,7 @@ getAccel(
   do_plot = TRUE,
   title = "",
   point_color = NA,
+  point_shape = NA,
   simple = FALSE,
   x_lim = c(0, 100),
   y_lim = c(0, 100)
@@ -30,6 +31,9 @@ include "None", "Linear", and "Loess".}
 
 \item{point_color}{Default: NA, define the color for the points in the plot, can be a character or
 a vector of characters.}
+
+\item{point_shape}{Default: NA, define the shape for the points in the plot, can be a single 
+integer or a vector of characters.}
 }
 \value{
 A vector represents age acceleration in each sample.
