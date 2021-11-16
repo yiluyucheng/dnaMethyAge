@@ -1,10 +1,10 @@
 # dnaMethyAge
 A user friendly **R package** to predict epigenetic age and calculate age acceleration from DNA methylation data. Currently, supported age clocks are listed below:
 
-| Name | Published Name | First Author (Published Year) | Trained Phenotype | Number of CpGs | Tissues Derived |
+| Name | Published Name | First Author (Published Year) | Trained Phenotype | Num. of CpGs | Tissues Derived |
 | ------------- | ------------- |------------- | ------------- |------------- |------------- |
 | HannumG2013 | | [Gregory Hannum (2013)](https://www.sciencedirect.com/science/article/pii/S1097276512008933) | Chronological age | 71 | Whole blood|
-| HorvathS2013 | Multi-tissue DNAm age estimator| [Steve Horvath (2013)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2013-14-10-r115) | Chronological age | 353 | 51 tissues/cells |
+| HorvathS2013 | Multi-tissue age estimator| [Steve Horvath (2013)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2013-14-10-r115) | Chronological age | 353 | 51 tissues/cells |
 | YangZ2016 | epiTOC | [Zhen Yang (2016)](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1064-3)| Mitotic divisions | 385 | Whole blood |
 | ZhangY2017 | | [Yan Zhang (2017)](https://www.nature.com/articles/ncomms14617) | Mortality risk | 10 | Whole blood |
 | HorvathS2018 | Skin & Blood Clock | [Steve Horvath (2018)](https://www.aging-us.com/article/101508/text) | Chronological age | 391 | Skin, blood, buccal cells and 5 other tissues
