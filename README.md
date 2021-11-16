@@ -1,17 +1,17 @@
 # dnaMethyAge
 A user friendly **R package** to predict epigenetic age and calculate age acceleration from DNA methylation data. Currently, supported age clocks are listed below:
 
-| Name | Published Name | First Author(Published Year) | Trained Phenotype | Number of CpGs |
-| ------------- | ------------- |------------- | ------------- |------------- |
-| HannumG2013 | | [Gregory Hannum(2013)](https://www.sciencedirect.com/science/article/pii/S1097276512008933) | Chronological age | 71 |
-| HorvathS2013 | | [Steve Horvath(2013)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2013-14-10-r115) | Chronological age | 353 |
-| YangZ2016 | epiTOC | [Zhen Yang(2016)](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1064-3)| Mitotic divisions | 385 |
-| ZhangY2017 | | [Yan Zhang(2017)](https://www.nature.com/articles/ncomms14617) | Mortality risk | 10 |
-| HorvathS2018 | Skin & Blood Clock | [Steve Horvath(2018)](https://www.aging-us.com/article/101508/text) | Chronological age | 391 |
-| LevineM2018 | PhenoAge | [Morgan E. Levine(2018)](https://www.aging-us.com/article/101414/text) | Mortality risk | 513 |
-| ZhangQ2019 | | [Qian Zhang(2019)](https://link.springer.com/article/10.1186/s13073-019-0667-1) | Chronological age | 514 |
-| LuA2019 | DNAmTL | [Ake T. Lu(2019)](https://www.aging-us.com/article/102173/text) | Telomere length | 140 |
-| ShirebyG2020 | |[Gemma L Shireby(2020)](https://academic.oup.com/brain/article/143/12/3763/5942151?login=true) | Chronological age | 347 |
+| Name | Published Name | First Author(Published Year) | Trained Phenotype | Number of CpGs | Tissues Derived |
+| ------------- | ------------- |------------- | ------------- |------------- |------------- |
+| HannumG2013 | | [Gregory Hannum(2013)](https://www.sciencedirect.com/science/article/pii/S1097276512008933) | Chronological age | 71 | Whole blood|
+| HorvathS2013 | Multi-tissue DNAm age estimator| [Steve Horvath(2013)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2013-14-10-r115) | Chronological age | 353 | 51 tissues/cells |
+| YangZ2016 | epiTOC | [Zhen Yang(2016)](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1064-3)| Mitotic divisions | 385 | Whole blood |
+| ZhangY2017 | | [Yan Zhang(2017)](https://www.nature.com/articles/ncomms14617) | Mortality risk | 10 | Whole blood |
+| HorvathS2018 | Skin & Blood Clock | [Steve Horvath(2018)](https://www.aging-us.com/article/101508/text) | Chronological age | 391 | Skin, blood, buccal cells and 5 other tissues
+| LevineM2018 | PhenoAge | [Morgan E. Levine(2018)](https://www.aging-us.com/article/101414/text) | Mortality risk | 513 | Whole blood |
+| ZhangQ2019 | | [Qian Zhang(2019)](https://link.springer.com/article/10.1186/s13073-019-0667-1) | Chronological age | 514 | Whole blood |
+| LuA2019 | DNAmTL | [Ake T. Lu(2019)](https://www.aging-us.com/article/102173/text) | Leukocyte telomere length | 140 | Whole blood |
+| ShirebyG2020 | Cortical clock | [Gemma L Shireby(2020)](https://academic.oup.com/brain/article/143/12/3763/5942151?login=true) | Chronological age | 347 | Brain cortex |
 
 ## 1. Usage
 
