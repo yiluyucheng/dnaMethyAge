@@ -89,7 +89,7 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
             is_beta <- FALSE
         }
         ## Free the Y limits in plotting
-        if(clock %in% c('YangZ2016', 'ZhangY2017')){
+        if(clock %in% c('YangZ2016', 'ZhangY2017', 'LuA2019')){
             y_lim = c(NULL, NULL)
             plot_simple <- TRUE
         }
@@ -116,7 +116,7 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
         }
     
         ## post transformation
-        if(clock %in% c('HorvathS2013', 'ShirebyG2020')){
+        if(clock %in% c('HorvathS2013', 'ShirebyG2020', 'HorvathS2018')){
             HorvathS2013_transform <- function(x){
                 if (x > 0){
                     x <- x *(20 + 1) + 20
