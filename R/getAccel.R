@@ -20,7 +20,8 @@
 #' integer or a vector of characters.
 #' @param plot_accel
 #' Default: TRUE, whether to plot the accel distribution.
-#' 
+#' @param plot_legend
+#' Default: TRUE, whether to plot the legend.
 #'
 #' @return
 #' A vector represents age acceleration in each sample.
@@ -42,8 +43,9 @@
 #'
 getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='', 
                      point_color=NA, point_shape=NA, plot_accel=TRUE, simple=FALSE,
-                     x_lim=c(0, 100), y_lim=c(0, 100), x_lab='Chronological Age', 
-                     y_lab='mAge', y2_lab='Age Acceleration'){
+                     plot_legend=TRUE, x_lim=c(0, 100), y_lim=c(0, 100), x_lab='Chronological Age', 
+                     y_lab='mAge', y2_lab='Age Acceleration', marker_cex=0.7, axis_cex=0.9,
+                     text_cex=0.7, lab_cex=1){
   if (length(c_age) < 6){
     method <- "None"
   }
@@ -64,7 +66,6 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
   
   if(do_plot){
     
-    plot_legend <- FALSE
     if(is.na(point_shape[1])){
       point_pch <- 1
     } else {
@@ -81,13 +82,6 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
     
     line_col <- 'blue'
     num <- length(c_age)
-    if (num < 50){
-      cex_size <- 1
-    } else if (num < 500){
-      cex_size <- 0.8
-    } else {
-      cex_size <- 0.6
-    }
     
     ylims <- c(min(y_lim[1], m_age), max(y_lim[2], m_age))
     yrange <- ylims[2] - ylims[1]
@@ -101,20 +95,22 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
     }
     
     #### plot m_age vs c_age
-    plot(c_age, m_age, xlim=xlims, ylim=ylims, xlab=p1_xlab, ylab=y_lab, main=title, 
-         cex=cex_size, col=color, pch=point_pch, lwd=1.5)
+    plot(c_age, m_age, xlim=xlims, ylim=ylims, xlab=p1_xlab, ylab=y_lab, main=title, cex.lab=lab_cex, 
+         cex=marker_cex, col=color, pch=point_pch, lwd=1.5, cex.axis=axis_cex)
     text(xlims[1], ylims[2] - yrange*0.03, paste0("Pearson's r = ", signif(cor(c_age, m_age), 3)),
-         cex=0.7, pos=4)
+         cex=text_cex, pos=4)
 
     u_pch <- unique(point_shape)
-    if((length(u_pch) > 1) & (length(levels(color)) > 1)){
-      legend(xlims[1], ylims[2] - yrange*0.18, c(levels(color), u_pch), 
-             col=c(1:length(levels(color)), rep(1, length(u_pch))), 
-             pch=c(rep(16, length(levels(color))), unique(point_pch)), box.col='gray', cex=0.6)
-    }else if(length(levels(color)) > 1){
-      legend(xlims[1], ylims[2] - yrange*0.18, levels(color), col=1:length(levels(color)), pch=point_pch[1], box.col='gray', cex=0.6)
-    }else if(length(u_pch) > 1){
-      legend(xlims[1], ylims[2] - yrange*0.18, u_pch, col=rep(1, length(u_pch)), pch=unique(point_pch), box.col='gray', cex=0.6)
+    if (plot_legend){
+      if((length(u_pch) > 1) & (length(levels(color)) > 1)){
+        legend(xlims[1], ylims[2] - yrange*0.18, c(levels(color), u_pch), 
+               col=c(1:length(levels(color)), rep(1, length(u_pch))), 
+               pch=c(rep(16, length(levels(color))), unique(point_pch)), box.col='gray', cex=marker_cex)
+      }else if(length(levels(color)) > 1){
+        legend(xlims[1], ylims[2] - yrange*0.18, levels(color), col=1:length(levels(color)), pch=point_pch[1], box.col='gray', cex=marker_cex)
+      }else if(length(u_pch) > 1){
+        legend(xlims[1], ylims[2] - yrange*0.18, u_pch, col=rep(1, length(u_pch)), pch=unique(point_pch), box.col='gray', cex=marker_cex)
+      }
     }
     
     ## add fitted line
@@ -123,20 +119,20 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
     }else if(method == "Linear"){
       abline(fit_model, col='red', lty=2, lwd=2)
       text(xlims[2], ylims[1] + yrange*0.03, paste0("y = ", signif(fit_model$coefficients[2], 2), " * x + ",
-                                                    signif(fit_model$coefficients[1], 2)), pos=2, col='red', cex=0.7)
+                                                    signif(fit_model$coefficients[1], 2)), pos=2, col='red', cex=text_cex)
     }else if(method == "Loess"){
       j <- order(c_age)
       lines(c_age[j], fit_model$fitted[j], col='red', lty=2, lwd=2)
-      text(xlims[2], ylims[1] + yrange*0.03, paste0("y = loess_fit(x)"), pos=2, col='red', cex=0.7)
+      text(xlims[2], ylims[1] + yrange*0.03, paste0("y = loess_fit(x)"), pos=2, col='red', cex=text_cex)
     }
     
     if(!simple){
       RMSE <- sqrt(mean((c_age - m_age)^2))
       MAE <- mean(abs(c_age - m_age))
-      text(xlims[1], ylims[2] - yrange*0.08,  paste0("RMSE = ", signif(RMSE, 3)), cex=0.7, pos=4)
-      text(xlims[1], ylims[2] - yrange*0.13,  paste0("MAE = ", signif(MAE, 3)), cex=0.7, pos=4)
+      text(xlims[1], ylims[2] - yrange*0.08,  paste0("RMSE = ", signif(RMSE, 3)), cex=text_cex, pos=4)
+      text(xlims[1], ylims[2] - yrange*0.13,  paste0("MAE = ", signif(MAE, 3)), cex=text_cex, pos=4)
       abline(a=0, b=1, col=line_col, lty=2, lwd=1.5)
-      text(xlims[2], ylims[1] + yrange*0.08, expression(y==x), pos=2, col=line_col, cex=0.7)
+      text(xlims[2], ylims[1] + yrange*0.08, expression(y==x), pos=2, col=line_col, cex=text_cex)
     }
     
     if(plot_accel){
@@ -144,7 +140,10 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
       par(fig=c(0, 0.96, 0, 0.45), mai=c(0.9, 0.9, 0.52, 0.1), new=TRUE)
       plot(c_age, accel, xlim=c(min(0, c_age), max(100, c_age)), 
            ylim=c(min(-0.3*yrange, accel), max(0.3 * yrange, accel)), xlab=x_lab, 
-           ylab=y2_lab, cex=cex_size, col=color, pch=point_pch, lwd=1.5)
+           ylab=y2_lab, cex=marker_cex, col=color, pch=point_pch, lwd=1.5, 
+           cex.lab=lab_cex, cex.axis=axis_cex )
+      
+      
       abline(a=0, b=0, col='red', lty=2, lwd=1.5)
     }
   }

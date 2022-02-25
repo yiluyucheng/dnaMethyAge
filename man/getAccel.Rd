@@ -14,11 +14,16 @@ getAccel(
   point_shape = NA,
   plot_accel = TRUE,
   simple = FALSE,
+  plot_legend = TRUE,
   x_lim = c(0, 100),
   y_lim = c(0, 100),
   x_lab = "Chronological Age",
   y_lab = "mAge",
-  y2_lab = "Age Acceleration"
+  y2_lab = "Age Acceleration",
+  marker_cex = 0.7,
+  axis_cex = 0.9,
+  text_cex = 0.7,
+  lab_cex = 1
 )
 }
 \arguments{
@@ -40,6 +45,8 @@ a vector of characters.}
 integer or a vector of characters.}
 
 \item{plot_accel}{Default: TRUE, whether to plot the accel distribution.}
+
+\item{plot_legend}{Default: TRUE, whether to plot the legend.}
 }
 \value{
 A vector represents age acceleration in each sample.
