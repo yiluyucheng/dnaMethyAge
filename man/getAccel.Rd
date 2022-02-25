@@ -23,7 +23,9 @@ getAccel(
   marker_cex = 0.7,
   axis_cex = 0.9,
   text_cex = 0.7,
-  lab_cex = 1
+  lab_cex = 1,
+  mgp_space = c(3, 1, 0),
+  tck_length = -0.05
 )
 }
 \arguments{
