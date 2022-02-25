@@ -18,6 +18,8 @@
 #' @param point_shape
 #' Default: NA, define the shape for the points in the plot, can be a single 
 #' integer or a vector of characters.
+#' @param plot_accel
+#' Default: TRUE, whether to plot the accel distribution.
 #' 
 #'
 #' @return
@@ -39,7 +41,9 @@
 #' dev.off()
 #'
 getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='', 
-                     point_color=NA, point_shape=NA, simple=FALSE, x_lim=c(0, 100), y_lim=c(0, 100)){
+                     point_color=NA, point_shape=NA, plot_accel=TRUE, simple=FALSE,
+                     x_lim=c(0, 100), y_lim=c(0, 100), x_lab='Chronological Age', 
+                     y_lab='mAge', y2_lab='Age Acceleration'){
   if (length(c_age) < 6){
     method <- "None"
   }
@@ -59,7 +63,7 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
   }
   
   if(do_plot){
-    par(mai=c(0.1, 0, 0.05, 0.1))
+    
     plot_legend <- FALSE
     if(is.na(point_shape[1])){
       point_pch <- 1
@@ -89,13 +93,19 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
     yrange <- ylims[2] - ylims[1]
     xlims <- c(min(x_lim[1], c_age), max(x_lim[2], c_age))
     xrange <- xlims[2] - xlims[1]
-    ## plot m_age vs c_age
-    par(fig=c(0, 0.96, 0.45, 0.98), mai=c(0, 0.9, 0.25, 0.1))
-    plot(c_age, m_age, xlim=xlims, ylim=ylims, xlab='', ylab='mAge', main=title, 
+    p1_xlab <- x_lab
+    if (plot_accel){
+      p1_xlab <- ''
+      par(mai=c(0.1, 0, 0.05, 0.1))
+      par(fig=c(0, 0.96, 0.45, 0.98), mai=c(0, 0.9, 0.25, 0.1))
+    }
+    
+    #### plot m_age vs c_age
+    plot(c_age, m_age, xlim=xlims, ylim=ylims, xlab=p1_xlab, ylab=y_lab, main=title, 
          cex=cex_size, col=color, pch=point_pch, lwd=1.5)
     text(xlims[1], ylims[2] - yrange*0.03, paste0("Pearson's r = ", signif(cor(c_age, m_age), 3)),
          cex=0.7, pos=4)
-    
+
     u_pch <- unique(point_shape)
     if((length(u_pch) > 1) & (length(levels(color)) > 1)){
       legend(xlims[1], ylims[2] - yrange*0.18, c(levels(color), u_pch), 
@@ -129,13 +139,14 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
       text(xlims[2], ylims[1] + yrange*0.08, expression(y==x), pos=2, col=line_col, cex=0.7)
     }
     
-    
-    ## plot accel vs age
-    par(fig=c(0, 0.96, 0, 0.45), mai=c(0.9, 0.9, 0.52, 0.1), new=TRUE)
-    plot(c_age, accel, xlim=c(min(0, c_age), max(100, c_age)), 
-         ylim=c(min(-0.3*yrange, accel), max(0.3 * yrange, accel)), xlab='Chronological Age', 
-         ylab='Age Acceleration', cex=cex_size, col=color, pch=point_pch, lwd=1.5)
-    abline(a=0, b=0, col='red', lty=2, lwd=1.5)
+    if(plot_accel){
+      #### plot accel vs age
+      par(fig=c(0, 0.96, 0, 0.45), mai=c(0.9, 0.9, 0.52, 0.1), new=TRUE)
+      plot(c_age, accel, xlim=c(min(0, c_age), max(100, c_age)), 
+           ylim=c(min(-0.3*yrange, accel), max(0.3 * yrange, accel)), xlab=x_lab, 
+           ylab=y2_lab, cex=cex_size, col=color, pch=point_pch, lwd=1.5)
+      abline(a=0, b=0, col='red', lty=2, lwd=1.5)
+    }
   }
   
   

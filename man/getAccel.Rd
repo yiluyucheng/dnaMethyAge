@@ -12,9 +12,13 @@ getAccel(
   title = "",
   point_color = NA,
   point_shape = NA,
+  plot_accel = TRUE,
   simple = FALSE,
   x_lim = c(0, 100),
-  y_lim = c(0, 100)
+  y_lim = c(0, 100),
+  x_lab = "Chronological Age",
+  y_lab = "mAge",
+  y2_lab = "Age Acceleration"
 )
 }
 \arguments{
@@ -34,6 +38,8 @@ a vector of characters.}
 
 \item{point_shape}{Default: NA, define the shape for the points in the plot, can be a single 
 integer or a vector of characters.}
+
+\item{plot_accel}{Default: TRUE, whether to plot the accel distribution.}
 }
 \value{
 A vector represents age acceleration in each sample.
