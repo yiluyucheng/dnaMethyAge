@@ -68,6 +68,8 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
     
     if(is.na(point_shape[1])){
       point_pch <- 1
+    } else if(length(point_shape) == 1 & is.numeric(point_shape)){
+      point_pch <- point_shape
     } else {
       point_pch <- as.numeric(as.factor(point_shape))
     }
@@ -89,7 +91,7 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
     xrange <- xlims[2] - xlims[1]
     p1_xlab <- x_lab
     
-    par(mgp=mgp_space, tck=tck_length, cex.lab=lab_cex, cex.axis=axis_cex, cex=marker_cex)
+    par(mgp=mgp_space, tck=tck_length)
     if (plot_accel){
       p1_xlab <- ''
       par(mai=c(0.1, 0, 0.05, 0.1))
@@ -98,20 +100,18 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
     
     #### plot m_age vs c_age
     plot(c_age, m_age, xlim=xlims, ylim=ylims, xlab=p1_xlab, ylab=y_lab, main=title, 
-          col=color, pch=point_pch, lwd=1.5)
-    text(xlims[1], ylims[2] - yrange*0.03, paste0("Pearson's r = ", signif(cor(c_age, m_age), 3)),
-         cex=text_cex, pos=4)
+          col=color, pch=point_pch, lwd=1.5, cex.lab=lab_cex, cex.axis=axis_cex, cex=marker_cex)
 
     u_pch <- unique(point_shape)
     if (plot_legend){
       if((length(u_pch) > 1) & (length(levels(color)) > 1)){
-        legend(xlims[1], ylims[2] - yrange*0.18, c(levels(color), u_pch), 
+        legend(xlims[1], ylims[2] - yrange*0.19, c(levels(color), u_pch), 
                col=c(1:length(levels(color)), rep(1, length(u_pch))), 
                pch=c(rep(16, length(levels(color))), unique(point_pch)), box.col='gray', cex=text_cex)
       }else if(length(levels(color)) > 1){
-        legend(xlims[1], ylims[2] - yrange*0.18, levels(color), col=1:length(levels(color)), pch=point_pch[1], box.col='gray', cex=text_cex)
+        legend(xlims[1], ylims[2] - yrange*0.19, levels(color), col=1:length(levels(color)), pch=point_pch[1], box.col='gray', cex=text_cex)
       }else if(length(u_pch) > 1){
-        legend(xlims[1], ylims[2] - yrange*0.18, u_pch, col=rep(1, length(u_pch)), pch=unique(point_pch), box.col='gray', cex=text_cex)
+        legend(xlims[1], ylims[2] - yrange*0.19, u_pch, col=rep(1, length(u_pch)), pch=unique(point_pch), box.col='gray', cex=text_cex)
       }
     }
     
@@ -129,10 +129,12 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
     }
     
     if(!simple){
+      text(xlims[1], ylims[2] - yrange*0.03, paste0("Pearson's r = ", signif(cor(c_age, m_age), 3)),
+           cex=text_cex, pos=4)
       RMSE <- sqrt(mean((c_age - m_age)^2))
       MAE <- mean(abs(c_age - m_age))
-      text(xlims[1], ylims[2] - yrange*0.08,  paste0("RMSE = ", signif(RMSE, 3)), cex=text_cex, pos=4)
-      text(xlims[1], ylims[2] - yrange*0.13,  paste0("MAE = ", signif(MAE, 3)), cex=text_cex, pos=4)
+      text(xlims[1], ylims[2] - yrange*0.09,  paste0("RMSE = ", signif(RMSE, 3)), cex=text_cex, pos=4)
+      text(xlims[1], ylims[2] - yrange*0.15,  paste0("MAE = ", signif(MAE, 3)), cex=text_cex, pos=4)
       
     }
     abline(a=0, b=1, col=line_col, lty=2, lwd=1.5)
@@ -143,8 +145,8 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
       par(fig=c(0, 0.96, 0, 0.45), mai=c(0.9, 0.9, 0.52, 0.1), new=TRUE)
       plot(c_age, accel, xlim=c(min(0, c_age), max(100, c_age)), 
            ylim=c(min(-0.3*yrange, accel), max(0.3 * yrange, accel)), xlab=x_lab, 
-           ylab=y2_lab, cex=marker_cex, col=color, pch=point_pch, lwd=1.5
-            )
+           ylab=y2_lab, col=color, pch=point_pch, lwd=1.5, cex.lab=lab_cex, 
+           cex.axis=axis_cex, cex=marker_cex)
       
       
       abline(a=0, b=0, col='red', lty=2, lwd=1.5)
