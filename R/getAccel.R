@@ -133,8 +133,8 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
            cex=text_cex, pos=4)
       RMSE <- sqrt(mean((c_age - m_age)^2))
       MAE <- mean(abs(c_age - m_age))
-      text(xlims[1], ylims[2] - yrange*0.09,  paste0("RMSE = ", signif(RMSE, 3)), cex=text_cex, pos=4)
-      text(xlims[1], ylims[2] - yrange*0.15,  paste0("MAE = ", signif(MAE, 3)), cex=text_cex, pos=4)
+      text(xlims[1], ylims[2] - yrange*0.09,  paste0("RMSD = ", signif(RMSE, 3)), cex=text_cex, pos=4)
+      text(xlims[1], ylims[2] - yrange*0.15,  paste0("MAD = ", signif(MAE, 3)), cex=text_cex, pos=4)
       
     }
     abline(a=0, b=1, col=line_col, lty=2, lwd=1.5)
