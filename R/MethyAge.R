@@ -87,6 +87,8 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
             mAge <- EstEpiTOC(betas, epiTOCcpgs, mode="raw", ref.idx=NULL)
             m_age <- as.matrix(mAge)
             is_beta <- FALSE
+        } else if(clock == 'DunedinPACE'){
+            betas <- preprocessDunedinPACE(betas, ref_means=gold_standard_means)
         }
         ## Free the Y limits in plotting
         if(clock %in% c('YangZ2016', 'ZhangY2017', 'LuA2019')){
