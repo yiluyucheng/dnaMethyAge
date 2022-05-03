@@ -78,10 +78,8 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
         plot_simple <- FALSE
         x_lim = y_lim = c(0, 100)
         if (clock == 'HorvathS2013' & !fast_mode){
-            #source('preprocessHorvathS2013.R')
             betas <- horvathPreprocess(betas, normalizeData=TRUE, use_cores=use_cores)
         } else if (clock == 'ZhangQ2019'){
-            #source('preprocessZhangQ2019.R')
             betas <- preprocessZhangQ2019(betas)
         } else if (clock == 'YangZ2016'){
             mAge <- EstEpiTOC(betas, epiTOCcpgs, mode="raw", ref.idx=NULL)
@@ -101,11 +99,13 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
     if(is_beta){
         #data('HorvathS2013')
         coefs <- setNames(coefs$Coefficient, coefs$Probe)
-    
+        ## add intercept
+        betas <- rbind(betas, Intercept=rep(1, ncol(betas)))
+        
         ## identify missing probes, set their beta values as zero
         betas <- betas[rownames(betas) %in% names(coefs), ]
         betas[is.na(betas)] <- 0
-        missing_probe <- setdiff(names(coefs), c(rownames(betas), "Intercept"))
+        missing_probe <- setdiff(names(coefs), rownames(betas))
         if(length(missing_probe) > 0){
             warning(paste(c("Found the below", length(missing_probe),
                             "probes missing! Will set them to zeros.\n ", missing_probe), collapse=" "))
@@ -113,9 +113,6 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
     
         ## matrix multiplication
         m_age <- t(betas) %*% matrix(data=coefs[rownames(betas)])
-        if("Intercept" %in% names(coefs)){
-            m_age <- m_age + coefs["Intercept"]
-        }
     
         ## post transformation
         if(clock %in% c('HorvathS2013', 'ShirebyG2020', 'HorvathS2018')){
