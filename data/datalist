@@ -1,4 +1,7 @@
 27k_reference: probeAnnotation21kdatMethUsed
+CBL_common: coefs
+CBL_specific: coefs
+Cortex_common: coefs
 DunedinPACE: coefs gold_standard_means
 HannumG2013: coefs
 HorvathS2013: coefs

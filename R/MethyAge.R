@@ -124,6 +124,8 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
                 }
             }
             m_age[,1] <- sapply(m_age[,1], HorvathS2013_transform)
+        } else if(clock %in% c('CBL_specific', 'CBL_common', 'Cortex_common')){
+            m_age[,1] <- exp(m_age[,1])
         }
         
     }
