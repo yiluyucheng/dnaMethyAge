@@ -9,6 +9,7 @@ A user friendly **R package** to predict epigenetic age and calculate age accele
 | ZhangY2017 | | [Yan Zhang (2017)](https://www.nature.com/articles/ncomms14617) | Mortality risk | 10 | Whole blood |
 | HorvathS2018 | Skin & Blood Clock | [Steve Horvath (2018)](https://www.aging-us.com/article/101508/text) | Chronological age | 391 | Skin, blood, buccal cells and 5 other tissues
 | LevineM2018 | PhenoAge | [Morgan E. Levine (2018)](https://www.aging-us.com/article/101414/text) | Mortality risk | 513 | Whole blood |
+| McEwenL2019 | PedBE | [Lisa M. McEwen (2019)](https://www.pnas.org/doi/10.1073/pnas.1820843116) | Chronological age | 94 | Buccal epithelial cells |
 | ZhangQ2019 | | [Qian Zhang (2019)](https://link.springer.com/article/10.1186/s13073-019-0667-1) | Chronological age | 514 | Whole blood |
 | LuA2019 | DNAmTL | [Ake T. Lu (2019)](https://www.aging-us.com/article/102173/text) | Leukocyte telomere length | 140 | Whole blood |
 | ShirebyG2020 | Cortical clock | [Gemma L Shireby (2020)](https://academic.oup.com/brain/article/143/12/3763/5942151?login=true) | Chronological age | 347 | Brain cortex |
