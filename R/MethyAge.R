@@ -115,7 +115,7 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
         m_age <- t(betas) %*% matrix(data=coefs[rownames(betas)])
     
         ## post transformation
-        if(clock %in% c('HorvathS2013', 'ShirebyG2020', 'HorvathS2018')){
+        if(clock %in% c('HorvathS2013', 'ShirebyG2020', 'HorvathS2018', 'McewenL2019')){
             HorvathS2013_transform <- function(x){
                 if (x > 0){
                     x <- x *(20 + 1) + 20
