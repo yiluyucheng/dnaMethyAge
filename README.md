@@ -131,14 +131,15 @@ The original model of Hannum2013 not only uses the 72 CpG sites, but also includ
 The four clocks' prediciton performance may vary in different datasets, and the Levine2018 also known as PhenoAge was not directly trained on chronological age.
 
 ## 3. Citation
-If you used this package in your research, please cite me:
+If you used this package in your research, please cite us:
 
 ```
-@Misc{WangYC2021,
-    author = {Wang, Yucheng},
-    title = {{dnaMethyAge}: a user friendly {R} package to predict epigenetic age and calculate age acceleration from DNA methylation data},
-    year = {2021--},
-    url = "https://github.com/yiluyucheng/dnaMethyAge"
+@article{wang2022,
+  title={Recalibrating the cerebellum DNA methylation clock: implications for ageing rates comparison},
+  author={Wang, Yucheng and Grant, Olivia A and Zhai, Xiaojun and McDonald-Maier, Klaus D and Schalkwyk, Leonard C},
+  journal={bioRxiv},
+  year={2022},
+  publisher={Cold Spring Harbor Laboratory}
 }
 ```
 
