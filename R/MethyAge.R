@@ -67,13 +67,18 @@
 methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linear', 
                      do_plot=TRUE, fast_mode=FALSE, use_cores=detectCores()){
     ## prepare clock coefficients
-    usable_clocks <- availableClock()
+    usable_clocks <- suppressMessages(availableClock())
     if (!(clock %in% usable_clocks)){
-        stop(paste(c("Unavailable for the user input clock:", clock,
-                     "\n  Please choose one of the available clocks:", usable_clocks), collapse=" "))
+        stop(message(paste0("Unavailable for the input clock: ", clock,
+                     ". Please choose one of the available clocks:\n\n", paste(usable_clocks, collapse=", "), '\n')))
     } else {
-        # coefs <- read.table(paste0('../data/', clock, '.txt'), header=TRUE)
-        data(list=clock, envir=environment())
+        if(grepl('^PC[A-Z]', clock)){
+            is_PCclock <- TRUE
+            data(list='PC-clocks', envir=environment())
+            coefs$Coefficient <- coefs[[clock]]
+        }else{
+            data(list=clock, envir=environment())
+        }
         is_beta <- TRUE
         plot_simple <- FALSE
         x_lim = y_lim = c(0, 100)
@@ -100,7 +105,7 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
         #data('HorvathS2013')
         coefs <- setNames(coefs$Coefficient, coefs$Probe)
         ## add intercept
-        betas <- rbind(betas, Intercept=rep(1, ncol(betas)))
+        betas <- rbind(betas, Intercept=1)
         
         ## identify missing probes, set their beta values as zero
         betas <- betas[rownames(betas) %in% names(coefs), ]
@@ -115,7 +120,8 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
         m_age <- t(betas) %*% matrix(data=coefs[rownames(betas)])
     
         ## post transformation
-        if(clock %in% c('HorvathS2013', 'ShirebyG2020', 'HorvathS2018', 'McEwenL2019')){
+        if(clock %in% c('HorvathS2013', 'ShirebyG2020', 'HorvathS2018', 
+                        'McEwenL2019', 'PCHorvathS2013', 'PCHorvathS2018')){
             HorvathS2013_transform <- function(x){
                 if (x > 0){
                     x <- x *(20 + 1) + 20
@@ -140,6 +146,18 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
                 if (nrow(m_age) < 1){
                     stop(message("Colnames of the input beta dataframe do not match any of the values of the 'Sample' column in age_info!"))
                 }
+                if(clock == 'PCGrimAge'){
+                    if('Sex' %in% colnames(age_info)){
+                        #m_age$is_Female <- NA
+                        m_age$is_Female <- gsub('^F.*', 1, m_age$Sex)
+                        m_age$is_Female <- gsub('^M.*', 0, m_age$is_Female)
+                        m_age$is_Female <- as.numeric(m_age$is_Female)
+                        
+                        m_age$mAge <- m_age$mAge + as.matrix(m_age[, c('is_Female', 'Age')]) %*% PCGrimAge_agesex$PCGrimAge
+                    }else{
+                        stop(message("\nTo calculate 'PCGrimage', 'age_info' should include a 'Sex' column that contains binary sex annotation, i.e. either Female or Male."))
+                    }
+                }
                 if("Color" %in% colnames(age_info)){
                     point_color <- m_age$Color
                 }else{
@@ -155,7 +173,9 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
                 warning(message("\nThe colnames of age_info should include both 'Sample' and 'Age', like:\nSample\tAge\nname1\t30\nname2\t60\nname3\t40\nAge\nAge acceleration will not be calculated."))
             }
     } else if (is.na(age_info[1])){
-        ## age_info is NA, age acceleration will not be calculated.
+        if(clock == 'PCGrimAge'){
+            stop(message("\nTo calculate 'PCGrimage': \n'age_info' should be a dataframe which contains sample ID, age, sex information, like:\nSample\tAge\tSex\nname1\t30\tFemale\nname2\t60\tMale\nname3\t40\tFemale\n"))
+        }
     } else {
         warning(message(warning_message))
     }
