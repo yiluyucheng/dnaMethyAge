@@ -14,7 +14,8 @@ A user friendly **R package** to predict epigenetic age and calculate age accele
 | LuA2019 | DNAmTL | [Ake T. Lu (2019)](https://www.aging-us.com/article/102173/text) | Leukocyte telomere length | 140 | Whole blood |
 | ShirebyG2020 | Cortical clock | [Gemma L Shireby (2020)](https://academic.oup.com/brain/article/143/12/3763/5942151?login=true) | Chronological age | 347 | Brain cortex |
 | DunedinPACE | DunedinPACE | [Daniel W Belsky (2022)](https://elifesciences.org/articles/73420) | Pace of ageing | 173 | Blood |
- 
+| Li2018 | Li Clock | [Jun Li(2018)](https://doi.org/10.1289/EHP2773) | Chronological age | 239 | Whole blood |
+
 ## 1. Usage
 
 ### 1.1 Installation
