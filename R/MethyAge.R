@@ -119,7 +119,7 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
         data(list='ref_mean', envir=environment())
         ref_mean <- setNames(ref_mean$Mean, rownames(ref_mean))
         ref_mean <- ref_mean[names(ref_mean) %in% names(coefs)]
-        betas <- meanImputation(df=data.frame(betas), ref=ref_mean)
+        betas <- meanImputation(df=data.frame(betas, check.names=F), ref=ref_mean)
     
         ## matrix multiplication
         m_age <- t(betas) %*% matrix(data=coefs[rownames(betas)])
