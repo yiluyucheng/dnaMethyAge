@@ -2,6 +2,7 @@
 
 export(availableClock)
 export(getAccel)
+export(meanImputation)
 export(methyAge)
 importFrom(parallel,detectCores)
 importFrom(parallel,mclapply)

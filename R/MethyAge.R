@@ -112,9 +112,14 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
         betas[is.na(betas)] <- 0
         missing_probe <- setdiff(names(coefs), rownames(betas))
         if(length(missing_probe) > 0){
-            warning(paste(c("Found the below", length(missing_probe),
-                            "probes missing! Will set them to zeros.\n ", missing_probe), collapse=" "))
+            warning(paste(c("Found ", length(missing_probe), "out of", length(coefs),
+                            "probes missing! They will be assigned with mean values from reference dataset, missing probes are:\n ", missing_probe), collapse=" "))
         }
+        ## Mean imputation
+        data(list='ref_mean', envir=environment())
+        ref_mean <- setNames(ref_mean$Mean, rownames(ref_mean))
+        ref_mean <- ref_mean[names(ref_mean) %in% names(coefs)]
+        betas <- meanImputation(df=data.frame(betas), ref=ref_mean)
     
         ## matrix multiplication
         m_age <- t(betas) %*% matrix(data=coefs[rownames(betas)])
