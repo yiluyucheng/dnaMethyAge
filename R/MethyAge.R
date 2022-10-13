@@ -17,6 +17,10 @@
 #' @param do_plot
 #' Default: TRUE, whether to visualise the age acceleration results. Only valid 
 #' when age_info is supplied with expected values.
+#' @param inputation
+#' Default: TRUE, whether to make imputation to replace NA with sample mean or 
+#' fixed reference, please refer to help(meanImputation) to know how imputations
+#' are carried out in this function.
 #' @param fast_mode
 #' Default: FALSE, whether not to perform data normalisation for the clock of
 #' HorvathS2013.
@@ -65,7 +69,7 @@
 
 
 methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linear', 
-                     do_plot=TRUE, fast_mode=FALSE, use_cores=detectCores()){
+                     do_plot=TRUE, inputation=TRUE, fast_mode=FALSE, use_cores=detectCores()){
     ## prepare clock coefficients
     usable_clocks <- suppressMessages(availableClock())
     if (!(clock %in% usable_clocks)){
@@ -115,11 +119,13 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
             warning(paste(c("Found ", length(missing_probe), "out of", length(coefs),
                             "probes missing! They will be assigned with mean values from reference dataset, missing probes are:\n ", missing_probe), collapse=" "))
         }
-        ## Mean imputation
-        data(list='ref_mean', envir=environment())
-        ref_mean <- setNames(ref_mean$Mean, rownames(ref_mean))
-        ref_mean <- ref_mean[names(ref_mean) %in% names(coefs)]
-        betas <- meanImputation(df=data.frame(betas, check.names=F), ref=ref_mean)
+        if (inputation){
+            ## Mean imputation
+            data(list='ref_mean', envir=environment())
+            ref_mean <- setNames(ref_mean$Mean, rownames(ref_mean))
+            ref_mean <- ref_mean[names(ref_mean) %in% names(coefs)]
+            betas <- meanImputation(mt=betas, ref=ref_mean, only_ref_rows=FALSE)
+        }
     
         ## matrix multiplication
         m_age <- t(betas) %*% matrix(data=coefs[rownames(betas)])

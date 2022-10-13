@@ -4,10 +4,10 @@
 \alias{meanImputation}
 \title{Imputate array samples, replace NA with sample mean or golden reference}
 \usage{
-meanImputation(df, ref, cut_off = 0.9, only_ref_rows = TRUE)
+meanImputation(mt, ref, cut_off = 0.9, only_ref_rows = TRUE)
 }
 \arguments{
-\item{df}{A dataframe with column names as sample ID and row names as probe name.}
+\item{mt}{A numeric matrix with column names as sample ID and row names as probe name.}
 
 \item{ref}{Golden reference, a vector consists of numeric values, in which every item 
 should has a name, e.g. setNames(c(1,2,3), c('a', 'b', 'c'))}
@@ -27,12 +27,12 @@ Imputate array samples, replace NA with sample mean or golden reference
 }
 \examples{
 
-df <- data.frame(x1=c(1, NA, 3), x2=c(NA, 10, 15), x3=c(3, 5, NA), 
+mt <- data.frame(x1=c(1, NA, 3), x2=c(NA, 10, 15), x3=c(3, 5, NA), 
                   row.names=c('a', 'b', 'c'))
 
 ref <- ref <- setNames(c(1, 2, 3, 4, 5), c('a', 'b', 'c', 'd', 'e'))
 
-n_df <- meanImputation(df, ref)
+n_mt <- meanImputation(mt, ref)
 
 
 }

@@ -10,6 +10,7 @@ methyAge(
   age_info = NA,
   fit_method = "Linear",
   do_plot = TRUE,
+  inputation = TRUE,
   fast_mode = FALSE,
   use_cores = detectCores()
 )
@@ -29,6 +30,10 @@ choices include "None", "Linear", and "Loess".}
 
 \item{do_plot}{Default: TRUE, whether to visualise the age acceleration results. Only valid 
 when age_info is supplied with expected values.}
+
+\item{inputation}{Default: TRUE, whether to make imputation to replace NA with sample mean or 
+fixed reference, please refer to help(meanImputation) to know how imputations
+are carried out in this function.}
 
 \item{fast_mode}{Default: FALSE, whether not to perform data normalisation for the clock of
 HorvathS2013.}

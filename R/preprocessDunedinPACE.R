@@ -14,7 +14,7 @@ preprocessDunedinPACE <- function(betas, ref_means, least_proportion=0.9){
     betas[,] <- normalize.quantiles.use.target(as.matrix(betas), target=ref_means[common_p])
     missing_p <- setdiff(names(ref_means), common_p)
     #### replace NA with reference mean
-    betas <- data.frame(betas)
+    betas <- data.frame(betas, check.names = FALSE)
     betas[missing_p, ] <- NA
     
     ref_means <- ref_means[rownames(betas)]
