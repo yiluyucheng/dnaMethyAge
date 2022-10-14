@@ -121,8 +121,8 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
         }
         if (inputation){
             ## Mean imputation
-            data(list='ref_mean', envir=environment())
-            ref_mean <- setNames(ref_mean$Mean, rownames(ref_mean))
+            data(list='golen_ref', envir=environment())
+            ref_mean <- setNames(golen_ref$Mean, rownames(golen_ref))
             ref_mean <- ref_mean[names(ref_mean) %in% names(coefs)]
             betas <- meanImputation(mt=betas, ref=ref_mean, only_ref_rows=FALSE)
         }
