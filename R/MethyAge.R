@@ -21,7 +21,7 @@
 #' Default: TRUE, whether to make imputation to replace NA with sample mean or 
 #' fixed reference, please refer to help(meanImputation) to know how imputations
 #' are carried out in this function.
-#' @param fast_mode
+#' @param simple_mode
 #' Default: FALSE, whether not to perform data normalisation for the clock of
 #' HorvathS2013.
 #' @param use_cores
@@ -47,7 +47,7 @@
 #' # [1] 485577 8
 #' 
 #' #### 1. Predict epigenetic age from DNA methylation data
-#' horvath_age <- methyAge(betas, clock='HorvathS2013', fast_mode=TRUE) ## fast mode
+#' horvath_age <- methyAge(betas, clock='HorvathS2013', simple_mode=TRUE) ## fast mode
 #' 
 #' ## Reliable mode, beta values are subjected to fixed-reference based BMIQ 
 #' ## normalisation, same as Horvath's paper
@@ -69,7 +69,7 @@
 
 
 methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linear', 
-                     do_plot=TRUE, inputation=TRUE, fast_mode=FALSE, use_cores=detectCores()){
+                     do_plot=TRUE, inputation=TRUE, simple_mode=FALSE, use_cores=detectCores()){
     ## prepare clock coefficients
     usable_clocks <- suppressMessages(availableClock())
     if (!(clock %in% usable_clocks)){
@@ -86,13 +86,17 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
         is_beta <- TRUE
         plot_simple <- FALSE
         x_lim = y_lim = c(0, 100)
-        if (clock == 'HorvathS2013' & !fast_mode){
+        if (clock == 'HorvathS2013' & !simple_mode){
             betas <- horvathPreprocess(betas, normalizeData=TRUE, use_cores=use_cores)
         } else if (clock == 'ZhangQ2019'){
             betas <- preprocessZhangQ2019(betas)
         } else if (clock == 'YangZ2016'){
             mAge <- EstEpiTOC(betas, epiTOCcpgs, mode="raw", ref.idx=NULL)
             m_age <- as.matrix(mAge)
+            is_beta <- FALSE
+        } else if(clock == 'epiTOC2'){
+            m_age <- epiTOC2(betas, coefs, full_model=!simple_mode)
+            m_age <- as.matrix(m_age)
             is_beta <- FALSE
         } else if(clock == 'DunedinPACE'){
             betas <- preprocessDunedinPACE(betas, ref_means=gold_standard_means)

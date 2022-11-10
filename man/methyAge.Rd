@@ -11,7 +11,7 @@ methyAge(
   fit_method = "Linear",
   do_plot = TRUE,
   inputation = TRUE,
-  fast_mode = FALSE,
+  simple_mode = FALSE,
   use_cores = detectCores()
 )
 }
@@ -35,7 +35,7 @@ when age_info is supplied with expected values.}
 fixed reference, please refer to help(meanImputation) to know how imputations
 are carried out in this function.}
 
-\item{fast_mode}{Default: FALSE, whether not to perform data normalisation for the clock of
+\item{simple_mode}{Default: FALSE, whether not to perform data normalisation for the clock of
 HorvathS2013.}
 
 \item{use_cores}{An integer(e.g. 8) defines the number of cores to use when paralleling preprocess the
@@ -57,7 +57,7 @@ print(dim(betas))
 # [1] 485577 8
 
 #### 1. Predict epigenetic age from DNA methylation data
-horvath_age <- methyAge(betas, clock='HorvathS2013', fast_mode=TRUE) ## fast mode
+horvath_age <- methyAge(betas, clock='HorvathS2013', simple_mode=TRUE) ## fast mode
 
 ## Reliable mode, beta values are subjected to fixed-reference based BMIQ 
 ## normalisation, same as Horvath's paper
