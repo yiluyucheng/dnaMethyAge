@@ -21,7 +21,7 @@ If this is the case, then more reliable estimates are provided by using the
 simplified model.}
 }
 \value{
-
+A vector.
 }
 \description{
 Estimate the cumulative number of stem-cell divisions in a sample using the 

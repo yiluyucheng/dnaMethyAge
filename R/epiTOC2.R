@@ -19,6 +19,7 @@
 #' 
 #'
 #' @return
+#' A vector.
 #' @export
 #' @author
 #' This function is adopted from Andrew E Teschendorff, 2020 

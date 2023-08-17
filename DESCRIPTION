@@ -12,6 +12,6 @@ Depends: R (>= 3.5.0)
 Imports: parallel
 Encoding: UTF-8
 LazyData: FALSE
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2022-11-10 17:15:23 UTC; yw19282
+Packaged: 2023-08-17 16:28:01 UTC; yuchengw
