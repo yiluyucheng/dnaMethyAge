@@ -100,6 +100,8 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
       is_beta <- FALSE
     } else if(clock == 'DunedinPACE'){
       betas <- preprocessDunedinPACE(betas, ref_means=gold_standard_means)
+    } else if(clock == 'BernabeuE2023c'){
+      coefs$Probe <- sub('_2', '', coefs$Probe_2)  
     }
     ## Free the Y limits in plotting
     if(clock %in% c('YangZ2016', 'ZhangY2017', 'LuA2019')){
@@ -137,11 +139,10 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
       probes_2 <- r_coefs$Probe[grepl('_2', r_coefs$Probe_2)]
       betas_2 <- betas[rownames(betas) %in% probes_2, ]^2
       rownames(betas_2) <- paste0(rownames(betas_2), '_2')
+      betas <- betas[rownames(betas) %in% r_coefs$Probe_2, ]
       betas <- rbind(betas, betas_2)
-      r_coefs$Probe <- r_coefs$Probe_2
-      betas <- betas[rownames(betas) %in% r_coefs$Probe, ]
-      coefs <- setNames(r_coefs$Coefficient, r_coefs$Probe) 
-      coefs_L <- setNames(r_coefs$Coefficient_L, r_coefs$Probe)
+      coefs <- setNames(r_coefs$Coefficient, r_coefs$Probe_2) 
+      coefs_L <- setNames(r_coefs$Coefficient_L, r_coefs$Probe_2)
     }
     
     ## matrix multiplication
