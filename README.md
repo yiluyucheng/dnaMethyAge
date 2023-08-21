@@ -137,12 +137,15 @@ The four clocks' prediciton performance may vary in different datasets, and the 
 If you used this package in your research, please cite us:
 
 ```
-@article{wang2022,
-  title={Recalibrating the cerebellum DNA methylation clock: implications for ageing rates comparison},
+[10.1007/s11357-023-00871-w
+](https://doi.org/10.1007/s11357-023-00871-w)
+
+@article{Wang2023,
+  title={Insights into ageing rates comparison across tissues from recalibrating cerebellum DNA methylation clock},
   author={Wang, Yucheng and Grant, Olivia A and Zhai, Xiaojun and McDonald-Maier, Klaus D and Schalkwyk, Leonard C},
-  journal={bioRxiv},
-  year={2022},
-  publisher={Cold Spring Harbor Laboratory}
+  journal={GeroScience},
+  year={2023},
+  publisher={Springer}
 }
 ```
 
