@@ -139,7 +139,7 @@ If you used this package in your research, please cite us:
 ```
 @article{Wang2023,
   title={Insights into ageing rates comparison across tissues from recalibrating cerebellum DNA methylation clock},
-  author={Wang, Yucheng and Grant, Olivia A and Zhai, Xiaojun and Mcdonald-Maier, Klaus D and Schalkwyk, Leonardo C},
+  author={Wang, Yucheng and Grant, Olivia A and Zhai, Xiaojun and McDonald-Maier, Klaus D and Schalkwyk, Leonard C},
   journal={GeroScience},
   pages={1--18},
   year={2023},
