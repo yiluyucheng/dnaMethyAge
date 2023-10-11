@@ -12,6 +12,8 @@ methyAge(
   do_plot = TRUE,
   inputation = TRUE,
   simple_mode = FALSE,
+  species = "Homo sapiens",
+  MM_array = FALSE,
   use_cores = detectCores()
 )
 }
@@ -37,6 +39,12 @@ are carried out in this function.}
 
 \item{simple_mode}{Default: FALSE, whether not to perform data normalisation for the clock of
 HorvathS2013.}
+
+\item{species}{default: 'Homo sapiens', Latin name of the species studied, this is needed by 
+clocks of 'LuA2023p2' and 'LuA2023p3'}
+
+\item{MM_array}{Default: FALSE, is the input beta value matrix from Illumina 
+HorvathMammalianMethylChip40?}
 
 \item{use_cores}{An integer(e.g. 8) defines the number of cores to use when paralleling preprocess the
 normalisation step for HorvathS2013. Only valid under Linux OS, default value 
@@ -68,6 +76,8 @@ hannum_age <- methyAge(betas, clock='HannumG2013')
 pheno_age <- methyAge(betas, clock='LevineM2018')
 
 zhang_age <- methyAge(betas, clock='ZhangQ2019')
+
+Pan-mammalian_clock2 <- methyAge(betas, clock='LuA2023p2')
 
 #### 2. Predict epigenetic age and calculate age acceleration
 hannum_age <- methyAge(betas, clock='HannumG2013', age_info=info)

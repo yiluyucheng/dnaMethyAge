@@ -24,6 +24,12 @@
 #' @param simple_mode
 #' Default: FALSE, whether not to perform data normalisation for the clock of
 #' HorvathS2013.
+#' @param species
+#' default: 'Homo sapiens', Latin name of the species studied, this is needed by 
+#' clocks of 'LuA2023p2' and 'LuA2023p3'
+#' @param MM_array
+#' Default: FALSE, is the input beta value matrix from Illumina 
+#' HorvathMammalianMethylChip40?
 #' @param use_cores
 #' An integer(e.g. 8) defines the number of cores to use when paralleling preprocess the
 #' normalisation step for HorvathS2013. Only valid under Linux OS, default value 
@@ -59,6 +65,8 @@
 #' 
 #' zhang_age <- methyAge(betas, clock='ZhangQ2019')
 #' 
+#' Pan-mammalian_clock2 <- methyAge(betas, clock='LuA2023p2')
+#' 
 #' #### 2. Predict epigenetic age and calculate age acceleration
 #' hannum_age <- methyAge(betas, clock='HannumG2013', age_info=info)
 #' horvath_age <- methyAge(betas, clock='HorvathS2013', age_info=info, fit_method='Linear')
@@ -69,7 +77,8 @@
 
 
 methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linear', 
-                     do_plot=TRUE, inputation=TRUE, simple_mode=FALSE, use_cores=detectCores()){
+                     do_plot=TRUE, inputation=TRUE, simple_mode=FALSE, 
+                     species='Homo sapiens', MM_array=FALSE, use_cores=detectCores()){
   ## prepare clock coefficients
   usable_clocks <- suppressMessages(availableClock())
   if (!(clock %in% usable_clocks)){
@@ -83,6 +92,7 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
     }else{
       data(list=clock, envir=environment())
     }
+    
     is_beta <- TRUE
     plot_simple <- FALSE
     x_lim = y_lim = c(0, 100)
@@ -102,6 +112,11 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
       betas <- preprocessDunedinPACE(betas, ref_means=gold_standard_means)
     } else if(clock == 'BernabeuE2023c'){
       coefs$Probe <- sub('_2', '', coefs$Probe_2)  
+    } else if(clock %in% c('LuA2023p1', 'LuA2023p2', 'LuA2023p3')){
+      if(!MM_array){
+        betas <- arrayConverter_EPICtoMM(betas, coefs$Probe[-1])
+        inputation <- FALSE
+      }
     }
     ## Free the Y limits in plotting
     if(clock %in% c('YangZ2016', 'ZhangY2017', 'LuA2019')){
@@ -118,9 +133,8 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
     ## add intercept
     betas <- rbind(betas, Intercept=1)
     
-    ## identify missing probes, set their beta values as zero
+    ## identify missing probes, set their beta values as 0.5
     betas <- betas[rownames(betas) %in% names(coefs), ]
-    betas[is.na(betas)] <- 0
     missing_probe <- setdiff(names(coefs), rownames(betas))
     if(length(missing_probe) > 0){
       warning(paste(c("Found ", length(missing_probe), "out of", length(coefs),
@@ -132,6 +146,8 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
       ref_mean <- setNames(golden_ref$Mean, rownames(golden_ref))
       ref_mean <- ref_mean[names(ref_mean) %in% names(coefs)]
       betas <- meanImputation(mt=betas, ref=ref_mean, only_ref_rows=FALSE)
+    }else{
+      betas[is.na(betas)] <- 0
     }
     
     if(clock %in% c('BernabeuE2023c')){
@@ -168,6 +184,25 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
         m_age_L <- t(betas[less_20, ]) %*% matrix(data=coefs_L[rownames(m_age)[less_20]])
         m_age[less_20, 1]  <- exp(m_age_L[, 1])
       }
+    } else if(clock %in% c('LuA2023p1')){
+      m_age[,1] <- exp(m_age[,1]) - 2
+    } else if(clock %in% c('LuA2023p2')){
+      data(list='SpeciesAgeInfo', envir=environment())
+      my_max <- ifelse(species %in% c('Homo sapiens', 'Mus musculus'), 1, 1.3)
+      y_maxAge <- SpeciesAgeInfo[species, 'maxAge'] * my_max
+      y_gestation <- SpeciesAgeInfo[species, 'GestationTimeInYears']
+      m_age[,1] <- exp(-exp(-1 * m_age[,1]))
+      m_age[,1] <- m_age[,1]*(y_maxAge + y_gestation) - y_gestation
+    } else if(clock %in% c('LuA2023p3')){
+      data(list='SpeciesAgeInfo', envir=environment())
+      y_gestation <- SpeciesAgeInfo[species, 'GestationTimeInYears']
+      y_ASM <- SpeciesAgeInfo[species, 'averagedMaturity.yrs']
+      F2_revtrsf_clock3 <- function(y.pred, m1){
+        ifelse(y.pred<0, (exp(y.pred)-1)*m1 + m1, y.pred*m1+m1)  #wyc
+      }
+      a_Logli <- 5 * (y_gestation / y_ASM)^0.38
+      r_adult_age <- F2_revtrsf_clock3(m_age[,1], a_Logli)
+      m_age[,1] <- r_adult_age *(y_ASM + y_gestation) - y_gestation
     }
     
   }

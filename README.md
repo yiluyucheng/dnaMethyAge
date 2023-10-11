@@ -16,11 +16,28 @@ A user friendly **R package** to predict epigenetic age and calculate age accele
 | ShirebyG2020 | Cortical clock | [Gemma L Shireby (2020)](https://academic.oup.com/brain/article/143/12/3763/5942151?login=true) | Chronological age | 347 | Brain cortex |
 | DunedinPACE | DunedinPACE | [Daniel W Belsky (2022)](https://elifesciences.org/articles/73420) | Pace of ageing | 173 | Blood |
 | PCGrimAge | PCGrimAge | [Albert T. Higgins-Chen (2022)](https://doi.org/10.1038/s43587-022-00248-2) | [GrimAge](https://doi.org/10.18632/aging.101684) estimated from DNAm data| 78464 | Blood |
-| BernabeuE2023c | cAge | [Elena Bernabeu (2023)](https://doi.org/10.1186/s13073-023-01161-y) | Chronological age |3225 | Blood |
- 
-## 1. Usage
+| BernabeuE2023c | cAge | [Elena Bernabeu (2023)](https://doi.org/10.1186/s13073-023-01161-y) | Chronological age | 3225 | Blood |
+| LuA2023p2 | Pan-mammalian clock2 | [Ake T. Lu (2023)](https://doi.org/10.1038/s43587-023-00499-7) | Age-to-Lifespan Ratio | 816 | 59 tissues across 185 mammalian species |
+| LuA2023p3 | Pan-mammalian clock3 | [Ake T. Lu (2023)](https://doi.org/10.1038/s43587-023-00499-7) | Age-to-Maturity Ratio | 760 | 59 tissues across 185 mammalian species |
 
-### 1.1 Installation
+## 1. Citation
+If you used this package in your research, please cite us:
+[Wang et al., 2023](https://doi.org/10.1007/s11357-023-00871-w)
+```
+@article{Wang2023,
+  title={Insights into ageing rates comparison across tissues from recalibrating cerebellum DNA methylation clock},
+  author={Wang, Yucheng and Grant, Olivia A and Zhai, Xiaojun and McDonald-Maier, Klaus D and Schalkwyk, Leonard C},
+  journal={GeroScience},
+  pages={1--18},
+  year={2023},
+  publisher={Springer}
+}
+```
+
+ 
+## 2. Usage
+
+### 2.1 Installation
 
 **Install from Github**
 ```R
@@ -29,7 +46,7 @@ A user friendly **R package** to predict epigenetic age and calculate age accele
 devtools::install_github("yiluyucheng/dnaMethyAge")
 ```
 
-### 2.1 How to use
+### 2.2 How to use
 
 Start a R work environment
 
@@ -128,23 +145,11 @@ Lastly, I provide the epiginetic age prediction results in four clocks for [GSE1
 
 <img width="960" src="https://github.com/yiluyucheng/dnaMethyAge/blob/main/test_res/test_result2.png">
 
-## 2. Attention
+## 3. Attention
 The original model of Hannum2013 not only uses the 72 CpG sites, but also includes covariates gender, BMI, diabetes status, ethnicity and batch, howevever, the authors did not provide the coefficients for those covariates. In this method, I only used the 72 CpG sites to calculate the Hannum2013 age, and this is the commom practice in this field.
 
 The four clocks' prediciton performance may vary in different datasets, and the Levine2018 also known as PhenoAge was not directly trained on chronological age.
 
-## 3. Citation
-If you used this package in your research, please cite us:
-
-```
-@article{wang2022,
-  title={Recalibrating the cerebellum DNA methylation clock: implications for ageing rates comparison},
-  author={Wang, Yucheng and Grant, Olivia A and Zhai, Xiaojun and McDonald-Maier, Klaus D and Schalkwyk, Leonard C},
-  journal={bioRxiv},
-  year={2022},
-  publisher={Cold Spring Harbor Laboratory}
-}
-```
 
 
 ## 4. Contact me
