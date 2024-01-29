@@ -121,6 +121,10 @@ print(horvath_age)
 # 6 GSM5310265_3999979028_R01C01 45.1 Female 60.95991         2.097534
 # 7 GSM5310266_3999979029_R04C02 53.2 Female 52.48954        -9.340977
 # 8 GSM5310267_3999979031_R06C02 63.8 Female 64.29711        -1.417638
+
+#### To calculate PCGrimAge, 'age_info' should be a dataframe that contains sample ID, age, sex information ####
+PC_GrimAge <- methyAge(betas, clock = "PCGrimAge", age_info=info)
+
 ```
 
 By default, methyAge would plot the age prediction results and the distribution of age acceleration, to save the plot:
