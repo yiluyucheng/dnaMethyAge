@@ -54,12 +54,12 @@ getAccel <- function(c_age, m_age, method='Linear', do_plot=TRUE, title='',
     accel <- m_age -c_age
   } else if (method == "Linear") {
     message("Age acceleration is calculated as the residual resulting from a linear regression model which DNAm age is regressed on chronological age.") ## copied
-    fit_model <- lm(m_age ~ c_age)
-    accel <- fit_model$residuals
+    fit_model <- lm(m_age ~ c_age, na.action = na.exclude)
+    accel <- residuals(fit_model)
   } else if (method == "Loess") {
     message("Age acceleration is calculated as the residual resulting from a nonlinear regression model (loess) which DNAm age is regressed on chronological age. Recommend when sample sie great than 500.")
-    fit_model <- loess(m_age ~ c_age)
-    accel <- fit_model$residuals
+    fit_model <- loess(m_age ~ c_age, na.action = na.exclude)
+    accel <- residuals(fit_model)
   } else {
     stop(paste0("Method should be one of 'None', 'Linear', and 'Loess'. However got: ", method))
   }
