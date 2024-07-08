@@ -239,7 +239,8 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
       }else{
         point_pch <- NA
       }
-      m_age$Age_Acceleration <- getAccel(m_age$Age, m_age$mAge, method=fit_method, title=clock, do_plot=do_plot, point_color=point_color, point_shape=point_pch, simple=plot_simple, x_lim=x_lim, y_lim=y_lim)
+      m_age$Age_Acceleration <- NA
+      m_age$Age_Acceleration[!is.na(m_age$Age)] <- getAccel(m_age$Age[!is.na(m_age$Age)], m_age$mAge[!is.na(m_age$Age)],, method=fit_method, title=clock, do_plot=do_plot, point_color=point_color, point_shape=point_pch, simple=plot_simple, x_lim=x_lim, y_lim=y_lim)
     }else{
       warning(message("\nThe colnames of age_info should include both 'Sample' and 'Age', like:\nSample\tAge\nname1\t30\nname2\t60\nname3\t40\nAge\nAge acceleration will not be calculated."))
     }
