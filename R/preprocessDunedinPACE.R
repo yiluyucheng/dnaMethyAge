@@ -1,6 +1,6 @@
 ######## this script was modified from Daniel Belsky's work (https://github.com/danbelsky/DunedinPACE/blob/main/R/PoAmProjector.R).
 
-preprocessDunedinPACE <- function(betas, ref_means, least_proportion=0.9){
+preprocessDunedinPACE <- function(betas, ref_means, least_proportion=0.8){
   if (!requireNamespace("preprocessCore", quietly = TRUE)){
     BiocManager::install("preprocessCore")
     require("preprocessCore")
