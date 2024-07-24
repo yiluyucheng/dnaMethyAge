@@ -110,6 +110,7 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
       is_beta <- FALSE
     } else if(clock == 'DunedinPACE'){
       betas <- preprocessDunedinPACE(betas, ref_means=gold_standard_means)
+      y_lim <- c(0.5, 2)
     } else if(clock == 'BernabeuE2023c'){
       coefs$Probe <- sub('_2', '', coefs$Probe_2)  
     } else if(clock %in% c('LuA2023p1', 'LuA2023p2', 'LuA2023p3')){
@@ -124,10 +125,10 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
       plot_simple <- TRUE
     }
     
-  }
-  r_coefs <- coefs
+  }  
   
   if(is_beta){
+    r_coefs <- coefs
     #data('HorvathS2013')
     coefs <- setNames(coefs$Coefficient, coefs$Probe)
     ## add intercept
