@@ -19,6 +19,7 @@ A user friendly **R package** to predict epigenetic age and calculate age accele
 | BernabeuE2023c | cAge | [Elena Bernabeu (2023)](https://doi.org/10.1186/s13073-023-01161-y) | Chronological age | 3225 | Blood |
 | LuA2023p2 | Pan-mammalian clock2 | [Ake T. Lu (2023)](https://doi.org/10.1038/s43587-023-00499-7) | Age-to-Lifespan Ratio | 816 | 59 tissues across 185 mammalian species |
 | LuA2023p3 | Pan-mammalian clock3 | [Ake T. Lu (2023)](https://doi.org/10.1038/s43587-023-00499-7) | Age-to-Maturity Ratio | 760 | 59 tissues across 185 mammalian species |
+| FuentealbaM2025 | Intrinsic Capacity clock | [Matías Fuentealba (2025)](https://doi.org/10.1038/s43587-025-00883-5) | Overall intrinsic capacity score | 91 | Blood |
 
 ## 1. Citation
 If you used this package in your research, please cite us:

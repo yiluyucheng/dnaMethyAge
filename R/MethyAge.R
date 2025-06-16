@@ -120,7 +120,7 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
       }
     }
     ## Free the Y limits in plotting
-    if(clock %in% c('YangZ2016', 'ZhangY2017', 'LuA2019')){
+    if(clock %in% c('YangZ2016', 'ZhangY2017', 'LuA2019', 'FuentealbaM2025')){
       y_lim = c(NULL, NULL)
       plot_simple <- TRUE
     }
