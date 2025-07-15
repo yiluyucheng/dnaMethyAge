@@ -37,7 +37,7 @@ meanImputation <- function(mt, ref, cut_off=0.9, only_ref_rows=TRUE){
   na_row <- intersect(rownames(mt)[is.na(t_mt)], names(ref))
   for (p in na_row){
     n_miss <- sum(is.na(mt[p,])) 
-    if(n_miss / nrow(mt) > cut_off) {
+    if(n_miss / ncol(mt) > cut_off) {
       #mt[p,][is.na(mt[p,])] <- ref[p]
       mt[p,] <- ref[p]
     }else{
