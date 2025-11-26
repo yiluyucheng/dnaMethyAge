@@ -30,7 +30,7 @@ imputation <- function(dat1,
 
 
       dimnames1 <- dimnames(datMethUsed)
-      datMethUsed <- data.frame(t(impute.knn(t(datMethUsed))$data))
+      datMethUsed <- data.frame(t(impute.knn(t(datMethUsed), maxp=ncol(datMethUsed))$data))
       dimnames(datMethUsed) <- dimnames1
     } # end of if
   } # end of if (! fastImputation )
@@ -75,5 +75,6 @@ horvathPreprocess <- function(betas, normalizeData=TRUE, use_cores=detectCores()
     }
     return(betas)
 }
+
 
 
