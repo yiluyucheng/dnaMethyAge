@@ -12,14 +12,17 @@
 #' Default: NA, in order to calculate the age acceleration, you need to provide 'age_info'
 #' with a dataframe which contains sample ID and age information.
 #' @param fit_method
-#' Default: 'Linear', select a method to calculate age acceleration, avaliabe
+#' Default: 'Linear', select a method to calculate age acceleration, available
 #' choices include "None", "Linear", and "Loess".
 #' @param do_plot
 #' Default: TRUE, whether to visualise the age acceleration results. Only valid 
 #' when age_info is supplied with expected values.
 #' @param inputation
-#' Default: TRUE, whether to make imputation to replace NA with sample mean or 
-#' fixed reference, please refer to help(meanImputation) to know how imputations
+#' Default: TRUE, whether to make imputation to replace NA with the sample mean or 
+#' fixed reference, the fixed reference was derived from mean methylation beta 
+#' values of CpGs across samples from GSE55763, a dataset comprising peripheral 
+#' blood from 2,664 individuals and 36 technical replicates hybridised to the 
+#' HumanMethylation450. Please refer to help(meanImputation) to know how imputations
 #' are carried out in this function.
 #' @param simple_mode
 #' Default: FALSE, whether not to perform data normalisation for the clock of
