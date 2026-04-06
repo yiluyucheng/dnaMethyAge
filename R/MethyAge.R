@@ -17,13 +17,20 @@
 #' @param do_plot
 #' Default: TRUE, whether to visualise the age acceleration results. Only valid 
 #' when age_info is supplied with expected values.
-#' @param inputation
-#' Default: TRUE, whether to make imputation to replace NA with the sample mean or 
-#' fixed reference, the fixed reference was derived from mean methylation beta 
-#' values of CpGs across samples from GSE55763, a dataset comprising peripheral 
-#' blood from 2,664 individuals and 36 technical replicates hybridised to the 
-#' HumanMethylation450. Please refer to help(meanImputation) to know how imputations
-#' are carried out in this function.
+# @param inputation Logical. Default: TRUE. Whether to impute missing (NA) values. 
+#   See help(meanImputation) for implementation details.
+#
+#   When TRUE:
+#     - If a CpG is missing in fewer than 90% of samples, the missing value is 
+#       replaced with the mean methylation of that CpG across the remaining samples.
+#     - If a CpG is missing in 90% or more of samples, the missing value is 
+#       replaced with a fixed reference, derived from mean methylation beta values 
+#       across 2,664 peripheral blood samples and 36 technical replicates from 
+#       GSE55763, hybridised to the HumanMethylation450.
+#
+#   When FALSE:
+#     - If a CpG is missing in some samples, its beta value is set to 0.
+#     - If a CpG is missing in all samples, that coefficient is skipped entirely.
 #' @param simple_mode
 #' Default: FALSE, whether not to perform data normalisation for the clock of
 #' HorvathS2013.
