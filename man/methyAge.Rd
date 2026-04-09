@@ -10,7 +10,7 @@ methyAge(
   age_info = NA,
   fit_method = "Linear",
   do_plot = TRUE,
-  inputation = TRUE,
+  imputation = TRUE,
   simple_mode = FALSE,
   species = "Homo sapiens",
   MM_array = FALSE,
@@ -27,20 +27,37 @@ clocks are 'HannumG2013', 'HorvathS2013', 'LevineM2018', and 'ZhangQ2019'.}
 \item{age_info}{Default: NA, in order to calculate the age acceleration, you need to provide 'age_info'
 with a dataframe which contains sample ID and age information.}
 
-\item{fit_method}{Default: 'Linear', select a method to calculate age acceleration, avaliabe
+\item{fit_method}{Default: 'Linear', select a method to calculate age acceleration, available
 choices include "None", "Linear", and "Loess".}
 
 \item{do_plot}{Default: TRUE, whether to visualise the age acceleration results. Only valid 
 when age_info is supplied with expected values.}
 
-\item{inputation}{Default: TRUE, whether to make imputation to replace NA with sample mean or 
-fixed reference, please refer to help(meanImputation) to know how imputations
-are carried out in this function.}
+\item{imputation}{Logical. Default: TRUE. Whether to impute missing (NA) values.
+  See \code{\link{meanImputation}} for implementation details.
+
+  When \code{TRUE}:
+  \itemize{
+    \item If a CpG is missing in fewer than 90\% of samples, the missing value
+      is replaced with the mean methylation of that CpG across the remaining
+      samples.
+    \item If a CpG is missing in 90\% or more of samples, the missing value is
+      replaced with a fixed reference, derived from mean methylation beta values
+      across 2,664 peripheral blood samples and 36 technical replicates from
+      GSE55763, hybridised to the HumanMethylation450.
+  }
+
+  When \code{FALSE}:
+  \itemize{
+    \item If a CpG is missing in some samples, its beta value is set to 0.
+    \item If a CpG is missing in all samples, that coefficient is skipped
+      entirely.
+  }}
 
 \item{simple_mode}{Default: FALSE, whether not to perform data normalisation for the clock of
 HorvathS2013.}
 
-\item{species}{default: 'Homo sapiens', Latin name of the species studied, this is needed by 
+\item{species}{Default: 'Homo sapiens', Latin name of the species studied, this is needed by 
 clocks of 'LuA2023p2' and 'LuA2023p3'}
 
 \item{MM_array}{Default: FALSE, is the input beta value matrix from Illumina 

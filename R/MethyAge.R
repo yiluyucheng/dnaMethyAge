@@ -17,25 +17,31 @@
 #' @param do_plot
 #' Default: TRUE, whether to visualise the age acceleration results. Only valid 
 #' when age_info is supplied with expected values.
-# @param inputation Logical. Default: TRUE. Whether to impute missing (NA) values. 
-#   See help(meanImputation) for implementation details.
-#
-#   When TRUE:
-#     - If a CpG is missing in fewer than 90% of samples, the missing value is 
-#       replaced with the mean methylation of that CpG across the remaining samples.
-#     - If a CpG is missing in 90% or more of samples, the missing value is 
-#       replaced with a fixed reference, derived from mean methylation beta values 
-#       across 2,664 peripheral blood samples and 36 technical replicates from 
-#       GSE55763, hybridised to the HumanMethylation450.
-#
-#   When FALSE:
-#     - If a CpG is missing in some samples, its beta value is set to 0.
-#     - If a CpG is missing in all samples, that coefficient is skipped entirely.
+#' @param imputation Logical. Default: TRUE. Whether to impute missing (NA) values.
+#'   See \code{\link{meanImputation}} for implementation details.
+#'
+#'   When \code{TRUE}:
+#'   \itemize{
+#'     \item If a CpG is missing in fewer than 90\% of samples, the missing value
+#'       is replaced with the mean methylation of that CpG across the remaining
+#'       samples.
+#'     \item If a CpG is missing in 90\% or more of samples, the missing value is
+#'       replaced with a fixed reference, derived from mean methylation beta values
+#'       across 2,664 peripheral blood samples and 36 technical replicates from
+#'       GSE55763, hybridised to the HumanMethylation450.
+#'   }
+#'
+#'   When \code{FALSE}:
+#'   \itemize{
+#'     \item If a CpG is missing in some samples, its beta value is set to 0.
+#'     \item If a CpG is missing in all samples, that coefficient is skipped
+#'       entirely.
+#'   }  
 #' @param simple_mode
 #' Default: FALSE, whether not to perform data normalisation for the clock of
 #' HorvathS2013.
 #' @param species
-#' default: 'Homo sapiens', Latin name of the species studied, this is needed by 
+#' Default: 'Homo sapiens', Latin name of the species studied, this is needed by 
 #' clocks of 'LuA2023p2' and 'LuA2023p3'
 #' @param MM_array
 #' Default: FALSE, is the input beta value matrix from Illumina 
@@ -87,7 +93,7 @@
 
 
 methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linear', 
-                     do_plot=TRUE, inputation=TRUE, simple_mode=FALSE, 
+                     do_plot=TRUE, imputation=TRUE, simple_mode=FALSE, 
                      species='Homo sapiens', MM_array=FALSE, use_cores=detectCores()){
   ## prepare clock coefficients
   usable_clocks <- suppressMessages(availableClock())
@@ -126,7 +132,7 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
     } else if(clock %in% c('LuA2023p1', 'LuA2023p2', 'LuA2023p3')){
       if(!MM_array){
         betas <- arrayConverter_EPICtoMM(betas, coefs$Probe[-1])
-        inputation <- FALSE
+        imputation <- FALSE
       }
     }
     ## Free the Y limits in plotting
@@ -151,7 +157,7 @@ methyAge <- function(betas, clock='HorvathS2013', age_info=NA, fit_method='Linea
       warning(paste(c("Found ", length(missing_probe), "out of", length(coefs),
                       "probes missing! They will be assigned with mean values from reference dataset, missing probes are:\n ", missing_probe), collapse=" "))
     }
-    if (inputation){
+    if (imputation){
       ## Mean imputation
       data(list='golden_ref', envir=environment())
       ref_mean <- setNames(golden_ref$Mean, rownames(golden_ref))
